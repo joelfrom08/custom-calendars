@@ -43,6 +43,7 @@ class CalendarConverter {
             gregorianDate = DateTime.Today;
         }
 
+        Console.WriteLine("Accepted Calendar IDs: gregorian   nyc   mc   rc   all");
         Console.WriteLine("Enter calendar ID:");
         string? calendarIdInput = Console.ReadLine()?.Trim()?.ToLower() ?? "gregorian";
         string calendarId = string.IsNullOrEmpty(calendarIdInput) ? "gregorian" : calendarIdInput;
@@ -89,9 +90,10 @@ class CalendarConverter {
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
 
-    static string ConvertTo_MC(DateTime date) {
+    static string ConvertTo_MC(DateTime date)
+    {
         int year = date.Year + 960;
-        string month_word = calendars["mc"].monthNames[date.Month-1];
+        string month_word = calendars["mc"].monthNames[date.Month - 1];
 
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
