@@ -58,45 +58,45 @@ class CalendarConverter {
                 return $"{date.Day:D2}.{date.Month:D2}.{date.Year}";
 
             case "nyc":
-                return Convert_NYC(date);
+                return ConvertTo_NYC(date);
 
             case "mc":
-                return Convert_MC(date);
+                return ConvertTo_MC(date);
 
             case "rc":
-                return Convert_RC(date);
+                return ConvertTo_RC(date);
 
             case "all":
-                return ConvertAllCalendars(date);
+                return ConvertToAllCalendars(date);
 
             default:
                 return "Unknown calendar ID.";
         }
     }
 
-    static string ConvertAllCalendars(DateTime date) {
+    static string ConvertToAllCalendars(DateTime date) {
         string all_calendars = "All Calendars:\n";
-        all_calendars += $"{calendars["nyc"].calendarName}: {Convert_NYC(date)}\n";
-        all_calendars += $"{calendars["mc"].calendarName}: {Convert_MC(date)}\n";
-        all_calendars += $"{calendars["rc"].calendarName}: {Convert_RC(date)}\n";
+        all_calendars += $"{calendars["nyc"].calendarName}: {ConvertTo_NYC(date)}\n";
+        all_calendars += $"{calendars["mc"].calendarName}: {ConvertTo_MC(date)}\n";
+        all_calendars += $"{calendars["rc"].calendarName}: {ConvertTo_RC(date)}\n";
         return all_calendars;
     }
 
-    static string Convert_NYC(DateTime date) {
+    static string ConvertTo_NYC(DateTime date) {
         int year = date.Year + 73;
         string month_word = calendars["nyc"].monthNames[date.Month - 1];
 
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
 
-    static string Convert_MC(DateTime date) {
+    static string ConvertTo_MC(DateTime date) {
         int year = date.Year + 960;
         string month_word = calendars["mc"].monthNames[date.Month-1];
 
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
 
-    static string Convert_RC(DateTime date) {
+    static string ConvertTo_RC(DateTime date) {
         int year = date.Year - 30;
         string month_word = calendars["rc"].monthNames[date.Month-1];
 
