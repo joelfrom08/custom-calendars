@@ -1,39 +1,105 @@
 ﻿using System;
+using System.Data;
+using System.Net.Mail;
+using System.Security.Principal;
 
-class Program {
+class CalendarConverter {
+    public static Dictionary<string, CalendarInfo> calendars = new() {
+        {
+            "nyc",
+            new CalendarInfo(
+                calendarName: "Nicer Years Calendar",
+                monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
+                monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+                leapDays: new Dictionary<int, int> { { 2, 1 } }
+            )
+        },
+        {
+            "mc",
+            new CalendarInfo(
+                calendarName: "Millennium Calendar",
+                monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
+                monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+                leapDays: new Dictionary<int, int> { { 2, 1 } }
+            )
+        },
+        {
+            "rc",
+            new CalendarInfo(
+                calendarName: "Retrollennium Calendar",
+                monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
+                monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
+                leapDays: new Dictionary<int, int> { { 2, 1 } }
+            )
+        },
+    };
+
     static void Main(string[] args) {
         Console.WriteLine("Enter a date (YYYY-MM-DD):");
-        string inputDate = Console.ReadLine();
+        string? inputDate = Console.ReadLine();
 
-        // Parse input into a DateTime
         if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) {
-            Console.WriteLine("Invalid date format. Use YYYY-MM-DD.");
-            return;
+            Console.WriteLine($"Invalid date format. Use YYYY-MM-DD next time. Falling back to today's date ({DateTime.Today.ToString("yyyy-MM-dd")}) for now.");
+            gregorianDate = DateTime.Today;
         }
 
-        Console.WriteLine("Enter calendar ID (e.g., custom):");
-        string calendarId = Console.ReadLine()?.Trim().ToLower();
+        Console.WriteLine("Enter calendar ID:");
+        string? calendarIdInput = Console.ReadLine()?.Trim()?.ToLower() ?? "gregorian";
+        string calendarId = string.IsNullOrEmpty(calendarIdInput) ? "gregorian" : calendarIdInput;
 
         string converted = ConvertToCalendar(gregorianDate, calendarId);
 
-        Console.WriteLine($"Gregorian {gregorianDate:yyyy-MM-dd} in {calendarId} calendar: {converted}");
+        Console.WriteLine($"Gregorian {gregorianDate:yyyy-MM-dd} in {calendarId} calendar, alongside other information...:\n{converted}");
     }
 
     static string ConvertToCalendar(DateTime date, string calendarId) {
         switch (calendarId) {
-            case "test_cal":
-                return Convert_TestCal(date);
+            case "gregorian":
+                return $"{date.Day:D2}.{date.Month:D2}.{date.Year}";
+
+            case "nyc":
+                return Convert_NYC(date);
+
+            case "mc":
+                return Convert_MC(date);
+
+            case "rc":
+                return Convert_RC(date);
+
+            case "all":
+                return ConvertAllCalendars(date);
 
             default:
                 return "Unknown calendar ID.";
         }
     }
 
-    static string Convert_TestCal(DateTime date) {
-        int year = date.Year + 100;
-        int month = date.Month;
-        int day = date.Day;
+    static string ConvertAllCalendars(DateTime date) {
+        string all_calendars = "All Calendars:\n";
+        all_calendars += $"{calendars["nyc"].calendarName}: {Convert_NYC(date)}\n";
+        all_calendars += $"{calendars["mc"].calendarName}: {Convert_MC(date)}\n";
+        all_calendars += $"{calendars["rc"].calendarName}: {Convert_RC(date)}\n";
+        return all_calendars;
+    }
 
-        return $"{year}-{month:D2}-{day:D2}";
+    static string Convert_NYC(DateTime date) {
+        int year = date.Year + 73;
+        string month_word = calendars["nyc"].monthNames[date.Month - 1];
+
+        return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+    }
+
+    static string Convert_MC(DateTime date) {
+        int year = date.Year + 960;
+        string month_word = calendars["mc"].monthNames[date.Month-1];
+
+        return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+    }
+
+    static string Convert_RC(DateTime date) {
+        int year = date.Year - 30;
+        string month_word = calendars["rc"].monthNames[date.Month-1];
+
+        return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
 }
