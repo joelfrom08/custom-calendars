@@ -227,7 +227,7 @@
         int day = 1;
         List<int> adjustedMonthDurations = calendars["jc"].monthDurations;
 
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-08-20 → 01.01.18⁰; 2026-08-19 → 15.11.17⁰)
+        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-06-21 → 01.01.02⁰; 2026-06-20 → 15.11.01⁰)
         int year = date.Year + calendars["jc"].gregorianYearOffset;
         if (date.Month < calendars["jc"].gregorianStartDate.Month || (date.Month == calendars["jc"].gregorianStartDate.Month && date.Day < calendars["jc"].gregorianStartDate.Day)) year--;
         int displayedYear = year;
