@@ -156,7 +156,7 @@
             gregorianDate = DateTime.Today;
         }
 
-        Console.WriteLine("Accepted Calendar IDs: gregorian   jc   joc   nyc   juc   mc   opc   omc   rc   gtc   all");
+        Console.WriteLine("Accepted Calendar IDs: gregorian | jc | joc | nyc | juc | mc | opc | omc | rc | gtc | all");
         Console.WriteLine("Enter calendar ID:");
         string? calendarIdInput = Console.ReadLine()?.Trim()?.ToLower() ?? "gregorian";
         string calendarId = string.IsNullOrEmpty(calendarIdInput) ? "gregorian" : calendarIdInput;
