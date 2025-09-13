@@ -108,13 +108,11 @@
         { "-", "\u208b" }
     };
 
-    static void Main(string[] args)
-    {
+    static void Main(string[] args) {
         Console.WriteLine("Enter a date (YYYY-MM-DD):");
         string? inputDate = Console.ReadLine();
 
-        if (!DateTime.TryParse(inputDate, out DateTime gregorianDate))
-        {
+        if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) {
             Console.WriteLine($"Invalid date format. Use YYYY-MM-DD next time. Falling back to today's date ({DateTime.Today.ToString("yyyy-MM-dd")}) for now.");
             gregorianDate = DateTime.Today;
         }
@@ -186,8 +184,7 @@
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
 
-    static string ConvertTo_OPC(DateTime date)
-    {
+    static string ConvertTo_OPC(DateTime date) {
         /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
         int month = 1;
         int day = 1;
@@ -202,22 +199,16 @@
         int century = (int)MathF.Floor(year / 100);
 
         /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
-        if (year < 0 && year % 100 != 0)
-        {
+        if (year < 0 && year % 100 != 0) {
             century--;
-            while (displayedYear < 0)
-            {
-                displayedYear += 100;
-            }
+            while (displayedYear < 0) { displayedYear += 100; }
         }
 
         /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
         int days_in_opc_year = calendars["opc"].monthDurations.Sum();
-        if (calendars["opc"].leapDaysCalculator(year))
-        {
+        if (calendars["opc"].leapDaysCalculator(year)) {
             days_in_opc_year += calendars["opc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["opc"].leapDays)
-            {
+            foreach (KeyValuePair<int, int> leapDay in calendars["opc"].leapDays) {
                 adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
             }
         }
@@ -228,8 +219,7 @@
 
         /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
         day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations)
-        {
+        foreach (int monthD in adjustedMonthDurations) {
             if (monthD >= day) { break; }
             day -= monthD;
             month++;
