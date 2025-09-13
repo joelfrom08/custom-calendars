@@ -252,7 +252,7 @@
         int day = 1;
         List<int> adjustedMonthDurations = calendars["opc"].monthDurations;
 
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-18 → 01.01.77,0; 2026-03-17 → 22.08.76,0)
+        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-18 → 01.01.⁷⁷⁄₀; 2026-03-17 → 22.08.⁷⁶⁄₀)
         int year = date.Year + calendars["opc"].gregorianYearOffset;
         if (date.Month < calendars["opc"].gregorianStartDate.Month || (date.Month == calendars["opc"].gregorianStartDate.Month && date.Day < calendars["opc"].gregorianStartDate.Day)) year--;
         int displayedYear = year;
