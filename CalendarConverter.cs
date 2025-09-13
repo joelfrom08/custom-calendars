@@ -1,9 +1,4 @@
-﻿using System;
-using System.Data;
-using System.Net.Mail;
-using System.Security.Principal;
-
-class CalendarConverter {
+﻿class CalendarConverter {
     public static Dictionary<string, CalendarInfo> calendars = new() {
         {
             "nyc",
@@ -85,15 +80,14 @@ class CalendarConverter {
 
     static string ConvertTo_NYC(DateTime date) {
         int year = date.Year + 73;
-        string month_word = calendars["nyc"].monthNames[date.Month - 1];
+        string month_word = calendars["nyc"].monthNames[date.Month-1];
 
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
 
-    static string ConvertTo_MC(DateTime date)
-    {
+    static string ConvertTo_MC(DateTime date) {
         int year = date.Year + 960;
-        string month_word = calendars["mc"].monthNames[date.Month - 1];
+        string month_word = calendars["mc"].monthNames[date.Month-1];
 
         return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
     }
