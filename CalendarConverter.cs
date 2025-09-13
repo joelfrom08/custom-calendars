@@ -6,7 +6,10 @@
                 calendarName: "Nicer Years Calendar",
                 monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-                leapDays: new Dictionary<int, int> { { 2, 1 } }
+                leapDays: new Dictionary<int, int> { { 2, 1 } },
+                gregorianStartDay: 1,
+                gregorianStartMonth: 1,
+                gregorianYearOffset: 73
             )
         },
         {
@@ -15,7 +18,10 @@
                 calendarName: "Millennium Calendar",
                 monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-                leapDays: new Dictionary<int, int> { { 2, 1 } }
+                leapDays: new Dictionary<int, int> { { 2, 1 } },
+                gregorianStartDay: 1,
+                gregorianStartMonth: 1,
+                gregorianYearOffset: 960
             )
         },
         {
@@ -24,9 +30,12 @@
                 calendarName: "Retrollennium Calendar",
                 monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
-                leapDays: new Dictionary<int, int> { { 2, 1 } }
+                leapDays: new Dictionary<int, int> { { 2, 1 } },
+                gregorianStartDay: 1,
+                gregorianStartMonth: 1,
+                gregorianYearOffset: -960
             )
-        },
+        }
     };
 
     static void Main(string[] args) {
