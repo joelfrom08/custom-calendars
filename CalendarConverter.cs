@@ -145,7 +145,7 @@
         int day = 1;
         List<int> adjustedMonthDurations = calendars["omc"].monthDurations;
 
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2025-06-15 → 01.01.72[0]; 2025-06-14 → 08.04.71[0])
+        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-06-15 → 01.01.73[0]; 2026-06-14 → 08.04.72[0])
         int year = date.Year + calendars["omc"].gregorianYearOffset;
         if (date.Month < calendars["omc"].gregorianStartDate.Month || (date.Month == calendars["omc"].gregorianStartDate.Month && date.Day < calendars["omc"].gregorianStartDate.Day)) year--;
         int displayedYear = year;
@@ -199,7 +199,7 @@
         int day = 1;
         List<int> adjustedMonthDurations = calendars["gtc"].monthDurations;
 
-        /// Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2025-03-21 → 01.01.2009; 2025-03-20 → 31.12.2008)
+        /// Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-21 → 01.01.2010; 2026-03-20 → 31.12.2009)
         int year = date.Year + calendars["gtc"].gregorianYearOffset;
         if (date.Month < calendars["gtc"].gregorianStartDate.Month || (date.Month == calendars["gtc"].gregorianStartDate.Month && date.Day < calendars["gtc"].gregorianStartDate.Day)) year--;
 
