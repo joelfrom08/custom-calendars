@@ -4,7 +4,7 @@
             "jc",
             new CalendarInfo(
                 calendarName: "Der joel\'sche Kalender",
-                monthNames: new List<string> { "Nuära", "Hosumā", "Eharfst", "Loharfst", "Dūknoff", "Vintur", "Frōsdur", "Fäquinox", "Blosam", "Sonnü", "Uprisu" },
+                monthNames: new List<string> { "Nu\u00e4ra", "Hosum\u0101", "Eharfst", "Loharfst", "D\u016bknoff", "Vintur", "Fr\u014dsdur", "F\u00e4quinox", "Blosam", "Sonn\u00fc", "Uprisu" },
                 monthDurations: new List<int> { 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 15 },
                 leapDays: new Dictionary<int, int> { { 10, 1 } },
                 gregorianStartDay: 21,
@@ -17,7 +17,7 @@
             "joc",
             new CalendarInfo(
                 calendarName: "JoCalendar",
-                monthNames: new List<string> { "Bor", "Säkū", "Tradj", "Kold\u0292", "Gråð", "Nytt\u0292", "Roß\u00fc\u0304", "Fr\u00fc\u0304", "Hōh", "Hit\u0292ō", "Sahmũ", "Nōrm", "Läst" },
+                monthNames: new List<string> { "Bor", "S\u00e4k\u016b", "Tradj", "Kold\u0292", "Gr\u00e5\u00f0", "Nytt\u0292", "Ro\u00df\u00fc\u0304", "Fr\u00fc\u0304", "H\u014dh", "Hit\u0292\u014d", "Sahm\u0169", "N\u014drm", "L\u00e4st" },
                 monthDurations: new List<int> { 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 28, 29 },
                 leapDays: new Dictionary<int, int> { { 7, 1 } },
                 gregorianStartDay: 20,
@@ -30,7 +30,7 @@
             "nyc",
             new CalendarInfo(
                 calendarName: "Nicer Years Calendar",
-                monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
+                monthNames: new List<string> { "\u016anum", "Du\u014ds", "Tr\u0113s", "Quattor", "Qu\u012bnque", "Sex", "Septem", "Oct\u014d", "Novem", "Decem", "\u016andecim", "Duodecim" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
                 leapDays: new Dictionary<int, int> { { 2, 1 } },
                 gregorianStartDay: 1,
@@ -43,7 +43,7 @@
             "juc",
             new CalendarInfo(
                 calendarName: "JulCal",
-                monthNames: new List<string> { "Føst", "\u01b7äkū", "Trët", "Fort", "Fim", "Fimūn", "Fimdu", "Fimtre", "Fimfir", "Tī", "Ný" },
+                monthNames: new List<string> { "F\u00f8st", "\u01b7\u00e4k\u016b", "Tr\u00ebt", "Fort", "Fim", "Fim\u016bn", "Fimdu", "Fimtre", "Fimfir", "T\u012b", "N\u00fd" },
                 monthDurations: new List<int> { 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 15 },
                 leapDays: new Dictionary<int, int> { { 5, 1 } },
                 gregorianStartDay: 7,
@@ -56,7 +56,7 @@
             "mc",
             new CalendarInfo(
                 calendarName: "Millennium Calendar",
-                monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
+                monthNames: new List<string> { "\u016anum", "Du\u014ds", "Tr\u0113s", "Quattor", "Qu\u012bnque", "Sex", "Septem", "Oct\u014d", "Novem", "Decem", "\u016andecim", "Duodecim" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
                 leapDays: new Dictionary<int, int> { { 2, 1 } },
                 gregorianStartDay: 1,
@@ -69,7 +69,7 @@
             "opc",
             new CalendarInfo(
                 calendarName: "OpCal",
-                monthNames: new List<string> { "Äs", "Trö", "Drä", "F\u00e4\u0304r", "Fün", "Sä", "Sië", "A\u0163" },
+                monthNames: new List<string> { "\u00c4s", "Tr\u00f6", "Dr\u00e4", "F\u00e4\u0304r", "F\u00fcn", "S\u00e4", "Si\u00eb", "A\u0163" },
                 monthDurations: new List<int> { 49, 49, 49, 49, 49, 49, 49, 22 },
                 leapDays: new Dictionary<int, int> { { 8, 1 } },
                 gregorianStartDay: 18,
@@ -95,7 +95,7 @@
             "rc",
             new CalendarInfo(
                 calendarName: "Retrollennium Calendar",
-                monthNames: new List<string> { "Ūnum", "Duōs", "Trēs", "Quattor", "Quīnque", "Sex", "Septem", "Octō", "Novem", "Decem", "Ūndecim", "Duodecim" },
+                monthNames: new List<string> { "\u016anum", "Du\u014ds", "Tr\u0113s", "Quattor", "Qu\u012bnque", "Sex", "Septem", "Oct\u014d", "Novem", "Decem", "\u016andecim", "Duodecim" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
                 leapDays: new Dictionary<int, int> { { 2, 1 } },
                 gregorianStartDay: 1,
@@ -108,7 +108,7 @@
             "gtc",
             new CalendarInfo(
                 calendarName: "GoodTimes Calendar",
-                monthNames: new List<string> { "Einn", "Dotum", "Trettium", "Quadrum", "Femta", "Sektum", "Septum", "Oktum", "Novum", "Tetum", "Ävum", "Tvovum" },
+                monthNames: new List<string> { "Einn", "Dotum", "Trettium", "Quadrum", "Femta", "Sektum", "Septum", "Oktum", "Novum", "Tetum", "\u00c4vum", "Tvovum" },
                 monthDurations: new List<int> { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 },
                 leapDays: new Dictionary<int, int> { { 2, 1 } },
                 gregorianStartDay: 21,
