@@ -1,6 +1,6 @@
 class MenuManager {
     public static string titleString = "Custom Calendar Converter";
-    public static string versionString = "v1.0.0-beta.23";
+    public static string versionString = "v1.0.0-beta.24";
     public static string copyrightString = "(c) 2025 PetByte";
     public static string titleToVersionGradient = "";
 
@@ -23,7 +23,7 @@ class MenuManager {
         int steps = Console.WindowWidth - titleString.Length - versionString.Length;
         if (steps < 3) { return; }
         (int r, int g, int b) start = (255, 111, 0);
-        (int r, int g, int b) end = (128, 128, 128);
+        (int r, int g, int b) end = (102, 102, 102);
 
         for (double i = 0; i < steps; i++) {
             double gradientPosition = i / (steps - 1);
