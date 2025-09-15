@@ -1,6 +1,6 @@
 ﻿class MainProgram {
-    int consoleHeight = Console.WindowHeight;
     int consoleWidth = Console.WindowWidth;
+    int consoleHeight = Console.WindowHeight;
     
     static void Main(string[] args) {
         Console.CursorVisible = false;
@@ -35,13 +35,16 @@
     
     void CheckForResize() {
         while (true) {
-            if (Console.WindowHeight != consoleHeight || Console.WindowWidth != consoleWidth) {
+            if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
                 MenuManager.DrawMenuBackground();
                 MenuManager.CalculateBoundaries();
                 MenuManager.CalculateTitleVersionGradient();
                 MenuManager.DrawTitle();
                 MenuManager.DrawVersion();
                 MenuManager.DrawCopyright();
+
+                consoleWidth = Console.WindowWidth;
+                consoleHeight = Console.WindowHeight;
             }
             Thread.Sleep(1);
         }

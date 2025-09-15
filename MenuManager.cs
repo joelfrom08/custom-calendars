@@ -1,6 +1,6 @@
 class MenuManager {
     public static string titleString = "Custom Calendar Converter";
-    public static string versionString = "v1.0.0-beta.21";
+    public static string versionString = "v1.0.0-beta.23";
     public static string copyrightString = "(c) 2025 PetByte";
     public static string titleToVersionGradient = "";
 
