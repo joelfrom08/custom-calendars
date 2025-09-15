@@ -12,9 +12,10 @@
         MenuManager.DrawTitle();
         MenuManager.DrawVersion();
         MenuManager.DrawCopyright();
+        MenuManager.DrawWindow();
 
         Console.SetCursorPosition(0, 2);
-        Console.WriteLine("Enter a date (YYYY-MM-DD):");
+        // Console.WriteLine("Enter a date (YYYY-MM-DD):");
         string? inputDate = Console.ReadLine();
 
         if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) {
@@ -42,6 +43,7 @@
                 MenuManager.DrawTitle();
                 MenuManager.DrawVersion();
                 MenuManager.DrawCopyright();
+                MenuManager.DrawWindow();
 
                 consoleWidth = Console.WindowWidth;
                 consoleHeight = Console.WindowHeight;
