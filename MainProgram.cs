@@ -1,7 +1,19 @@
-﻿using System.Globalization;
-
-class MainProgram {
+﻿class MainProgram {
+    int consoleHeight = Console.WindowHeight;
+    int consoleWidth = Console.WindowWidth;
+    
     static void Main(string[] args) {
+        Console.CursorVisible = false;
+        var program = new MainProgram();
+        Task.Run(() => program.CheckForResize());
+        MenuManager.DrawMenuBackground();
+        MenuManager.CalculateBoundaries();
+        MenuManager.CalculateTitleVersionGradient();
+        MenuManager.DrawTitle();
+        MenuManager.DrawVersion();
+        MenuManager.DrawCopyright();
+
+        Console.SetCursorPosition(0, 2);
         Console.WriteLine("Enter a date (YYYY-MM-DD):");
         string? inputDate = Console.ReadLine();
 
@@ -20,6 +32,21 @@ class MainProgram {
         /// Console.WriteLine($"Gregorian {gregorianDate:yyyy-MM-dd} in {calendarId} calendar, alongside other information...:\n{converted}");
         Console.WriteLine(converted);
     }
+    
+    void CheckForResize() {
+        while (true) {
+            if (Console.WindowHeight != consoleHeight || Console.WindowWidth != consoleWidth) {
+                MenuManager.DrawMenuBackground();
+                MenuManager.CalculateBoundaries();
+                MenuManager.CalculateTitleVersionGradient();
+                MenuManager.DrawTitle();
+                MenuManager.DrawVersion();
+                MenuManager.DrawCopyright();
+            }
+            Thread.Sleep(1);
+        }
+    }
+
 
     static string ConvertToCalendar(DateTime date, string calendarId) {
         switch (calendarId) {
