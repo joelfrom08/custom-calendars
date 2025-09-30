@@ -1,5 +1,6 @@
-class CalendarConversion {
-    public static Dictionary<string, CalendarInfo> calendars = new() {
+namespace PetByte.CustomCalendars {
+    class CalendarConversion {
+        public static Dictionary<string, CalendarInfo> calendars = new() {
         {
             "jc",
             new CalendarInfo(
@@ -118,8 +119,8 @@ class CalendarConversion {
             )
         }
     };
-    
-    public static Dictionary<string, string> charToSuperscript = new() {
+
+        public static Dictionary<string, string> charToSuperscript = new() {
         { "0", "\u2070" },
         { "1", "\u00b9" },
         { "2", "\u00b2" },
@@ -133,7 +134,7 @@ class CalendarConversion {
         { "-", "\u207b" }
     };
 
-    public static Dictionary<string, string> charToSubscript = new() {
+        public static Dictionary<string, string> charToSubscript = new() {
         { "0", "\u2080" },
         { "1", "\u2081" },
         { "2", "\u2082" },
@@ -146,328 +147,329 @@ class CalendarConversion {
         { "9", "\u2089" },
         { "-", "\u208b" }
     };
-    
-    public static string ConvertToAllCalendars(DateTime date) {
-        string all_calendars = "All Calendars:\n";
-        all_calendars += $"{calendars["jc"].calendarName}: {ConvertTo_JOC(date)}\n";
-        all_calendars += $"{calendars["joc"].calendarName}: {ConvertTo_JOC(date)}\n";
-        all_calendars += $"{calendars["nyc"].calendarName}: {ConvertTo_NYC(date)}\n";
-        all_calendars += $"{calendars["juc"].calendarName}: {ConvertTo_JUC(date)}\n";
-        all_calendars += $"{calendars["mc"].calendarName}: {ConvertTo_MC(date)}\n";
-        all_calendars += $"{calendars["opc"].calendarName}: {ConvertTo_OPC(date)}\n";
-        all_calendars += $"{calendars["omc"].calendarName}: {ConvertTo_OMC(date)}\n";
-        all_calendars += $"{calendars["rc"].calendarName}: {ConvertTo_RC(date)}\n";
-        all_calendars += $"{calendars["gtc"].calendarName}: {ConvertTo_GTC(date)}\n";
-        return all_calendars;
-    }
 
-    public static string ConvertTo_JC(DateTime date) {
-        /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
-        int month = 1;
-        int day = 1;
-        List<int> adjustedMonthDurations = calendars["jc"].monthDurations;
-
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-06-21 → 01.01.02⁰; 2026-06-20 → 15.11.01⁰)
-        int year = date.Year + calendars["jc"].gregorianYearOffset;
-        if (date.Month < calendars["jc"].gregorianStartDate.Month || (date.Month == calendars["jc"].gregorianStartDate.Month && date.Day < calendars["jc"].gregorianStartDate.Day)) year--;
-        int displayedYear = year;
-
-        /// Calculate century from the year
-        int century = (int)MathF.Floor(year / 100);
-
-        /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
-        if (year < 0 && year % 100 != 0) {
-            century--;
-            while (displayedYear < 0) { displayedYear += 100; }
+        public static string ConvertToAllCalendars(DateTime date) {
+            string all_calendars = "All Calendars:\n";
+            all_calendars += $"{calendars["jc"].calendarName}: {ConvertTo_JOC(date)}\n";
+            all_calendars += $"{calendars["joc"].calendarName}: {ConvertTo_JOC(date)}\n";
+            all_calendars += $"{calendars["nyc"].calendarName}: {ConvertTo_NYC(date)}\n";
+            all_calendars += $"{calendars["juc"].calendarName}: {ConvertTo_JUC(date)}\n";
+            all_calendars += $"{calendars["mc"].calendarName}: {ConvertTo_MC(date)}\n";
+            all_calendars += $"{calendars["opc"].calendarName}: {ConvertTo_OPC(date)}\n";
+            all_calendars += $"{calendars["omc"].calendarName}: {ConvertTo_OMC(date)}\n";
+            all_calendars += $"{calendars["rc"].calendarName}: {ConvertTo_RC(date)}\n";
+            all_calendars += $"{calendars["gtc"].calendarName}: {ConvertTo_GTC(date)}\n";
+            return all_calendars;
         }
 
-        /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
-        int days_in_jc_year = calendars["jc"].monthDurations.Sum();
-        if (calendars["jc"].leapDaysCalculator(year)) {
-            days_in_jc_year += calendars["jc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["jc"].leapDays) {
-                adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+        public static string ConvertTo_JC(DateTime date) {
+            /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
+            int month = 1;
+            int day = 1;
+            List<int> adjustedMonthDurations = calendars["jc"].monthDurations;
+
+            // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-06-21 → 01.01.02⁰; 2026-06-20 → 15.11.01⁰)
+            int year = date.Year + calendars["jc"].gregorianYearOffset;
+            if (date.Month < calendars["jc"].gregorianStartDate.Month || (date.Month == calendars["jc"].gregorianStartDate.Month && date.Day < calendars["jc"].gregorianStartDate.Day)) year--;
+            int displayedYear = year;
+
+            /// Calculate century from the year
+            int century = (int)MathF.Floor(year / 100);
+
+            /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
+            if (year < 0 && year % 100 != 0) {
+                century--;
+                while (displayedYear < 0) { displayedYear += 100; }
             }
-        }
 
-        /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
-        double days_since_new_year = (date - new DateTime(date.Year, calendars["jc"].gregorianStartDate.Month, calendars["jc"].gregorianStartDate.Day)).TotalDays;
-        if (days_since_new_year < 0) days_since_new_year += days_in_jc_year;
-
-        /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
-        day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations) {
-            if (monthD >= day) { break; }
-            day -= monthD;
-            month++;
-        }
-        string month_word = calendars["jc"].monthNames[month - 1];
-
-        /// Initialize special display values for century, and convert to superscript
-        string centuryDisplay = "";
-        foreach (char c in century.ToString()) {
-            centuryDisplay += charToSuperscript[c.ToString()];
-        }
-
-        return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
-    }
-
-    public static string ConvertTo_JOC(DateTime date) {
-        /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
-        int month = 1;
-        int day = 1;
-        List<int> adjustedMonthDurations = calendars["joc"].monthDurations;
-
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-08-20 → 01.01.18⁰; 2026-08-19 → 15.11.17⁰)
-        int year = date.Year + calendars["joc"].gregorianYearOffset;
-        if (date.Month < calendars["joc"].gregorianStartDate.Month || (date.Month == calendars["joc"].gregorianStartDate.Month && date.Day < calendars["joc"].gregorianStartDate.Day)) year--;
-        int displayedYear = year;
-
-        /// Calculate century from the year
-        int century = (int)MathF.Floor(year / 100);
-
-        /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
-        if (year < 0 && year % 100 != 0) {
-            century--;
-            while (displayedYear < 0) { displayedYear += 100; }
-        }
-
-        /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
-        int days_in_joc_year = calendars["joc"].monthDurations.Sum();
-        if (calendars["joc"].leapDaysCalculator(year)) {
-            days_in_joc_year += calendars["joc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["joc"].leapDays) {
-                adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+            /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
+            int days_in_jc_year = calendars["jc"].monthDurations.Sum();
+            if (calendars["jc"].leapDaysCalculator(year)) {
+                days_in_jc_year += calendars["jc"].leapDays.Values.Sum();
+                foreach (KeyValuePair<int, int> leapDay in calendars["jc"].leapDays) {
+                    adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                }
             }
+
+            /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
+            double days_since_new_year = (date - new DateTime(date.Year, calendars["jc"].gregorianStartDate.Month, calendars["jc"].gregorianStartDate.Day)).TotalDays;
+            if (days_since_new_year < 0) days_since_new_year += days_in_jc_year;
+
+            /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
+            day = (int)days_since_new_year + 1;
+            foreach (int monthD in adjustedMonthDurations) {
+                if (monthD >= day) { break; }
+                day -= monthD;
+                month++;
+            }
+            string month_word = calendars["jc"].monthNames[month - 1];
+
+            /// Initialize special display values for century, and convert to superscript
+            string centuryDisplay = "";
+            foreach (char c in century.ToString()) {
+                centuryDisplay += charToSuperscript[c.ToString()];
+            }
+
+            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
         }
 
-        /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
-        double days_since_new_year = (date - new DateTime(date.Year, calendars["joc"].gregorianStartDate.Month, calendars["joc"].gregorianStartDate.Day)).TotalDays;
-        if (days_since_new_year < 0) days_since_new_year += days_in_joc_year;
+        public static string ConvertTo_JOC(DateTime date) {
+            /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
+            int month = 1;
+            int day = 1;
+            List<int> adjustedMonthDurations = calendars["joc"].monthDurations;
 
-        /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
-        day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations) {
-            if (monthD >= day) { break; }
-            day -= monthD;
-            month++;
+            // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-08-20 → 01.01.18⁰; 2026-08-19 → 15.11.17⁰)
+            int year = date.Year + calendars["joc"].gregorianYearOffset;
+            if (date.Month < calendars["joc"].gregorianStartDate.Month || (date.Month == calendars["joc"].gregorianStartDate.Month && date.Day < calendars["joc"].gregorianStartDate.Day)) year--;
+            int displayedYear = year;
+
+            /// Calculate century from the year
+            int century = (int)MathF.Floor(year / 100);
+
+            /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
+            if (year < 0 && year % 100 != 0) {
+                century--;
+                while (displayedYear < 0) { displayedYear += 100; }
+            }
+
+            /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
+            int days_in_joc_year = calendars["joc"].monthDurations.Sum();
+            if (calendars["joc"].leapDaysCalculator(year)) {
+                days_in_joc_year += calendars["joc"].leapDays.Values.Sum();
+                foreach (KeyValuePair<int, int> leapDay in calendars["joc"].leapDays) {
+                    adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                }
+            }
+
+            /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
+            double days_since_new_year = (date - new DateTime(date.Year, calendars["joc"].gregorianStartDate.Month, calendars["joc"].gregorianStartDate.Day)).TotalDays;
+            if (days_since_new_year < 0) days_since_new_year += days_in_joc_year;
+
+            /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
+            day = (int)days_since_new_year + 1;
+            foreach (int monthD in adjustedMonthDurations) {
+                if (monthD >= day) { break; }
+                day -= monthD;
+                month++;
+            }
+            string month_word = calendars["joc"].monthNames[month - 1];
+
+            /// Initialize special display values for century, and convert to superscript
+            string centuryDisplay = "";
+            foreach (char c in century.ToString()) {
+                centuryDisplay += charToSuperscript[c.ToString()];
+            }
+
+            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
         }
-        string month_word = calendars["joc"].monthNames[month - 1];
 
-        /// Initialize special display values for century, and convert to superscript
-        string centuryDisplay = "";
-        foreach (char c in century.ToString()) {
-            centuryDisplay += charToSuperscript[c.ToString()];
+        public static string ConvertTo_NYC(DateTime date) {
+            int year = date.Year + calendars["nyc"].gregorianYearOffset;
+            string month_word = calendars["nyc"].monthNames[date.Month - 1];
+
+            return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
         }
 
-        return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
-    }
-    
-    public static string ConvertTo_NYC(DateTime date) {
-        int year = date.Year + calendars["nyc"].gregorianYearOffset;
-        string month_word = calendars["nyc"].monthNames[date.Month - 1];
+        public static string ConvertTo_JUC(DateTime date) {
+            /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
+            int month = 1;
+            int day = 1;
+            List<int> adjustedMonthDurations = calendars["juc"].monthDurations;
 
-        return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
-    }
+            // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-07-09 → 01.01.37,0; 2026-09-06 → 15.11.36,0)
+            int year = date.Year + calendars["juc"].gregorianYearOffset;
+            if (date.Month < calendars["juc"].gregorianStartDate.Month || (date.Month == calendars["juc"].gregorianStartDate.Month && date.Day < calendars["juc"].gregorianStartDate.Day)) year--;
+            int displayedYear = year;
 
-    public static string ConvertTo_JUC(DateTime date) {
-        /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
-        int month = 1;
-        int day = 1;
-        List<int> adjustedMonthDurations = calendars["juc"].monthDurations;
+            /// Calculate century from the year
+            int century = (int)MathF.Floor(year / 100);
 
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-07-09 → 01.01.37,0; 2026-09-06 → 15.11.36,0)
-        int year = date.Year + calendars["juc"].gregorianYearOffset;
-        if (date.Month < calendars["juc"].gregorianStartDate.Month || (date.Month == calendars["juc"].gregorianStartDate.Month && date.Day < calendars["juc"].gregorianStartDate.Day)) year--;
-        int displayedYear = year;
-
-        /// Calculate century from the year
-        int century = (int)MathF.Floor(year / 100);
-
-        /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
-        if (year < 0 && year % 100 != 0)
-        {
-            century--;
-            while (displayedYear < 0) { displayedYear += 100; }
-        }
-
-        /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
-        int days_in_juc_year = calendars["juc"].monthDurations.Sum();
-        if (calendars["juc"].leapDaysCalculator(year))
-        {
-            days_in_juc_year += calendars["juc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["juc"].leapDays)
+            /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
+            if (year < 0 && year % 100 != 0)
             {
-                adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                century--;
+                while (displayedYear < 0) { displayedYear += 100; }
             }
-        }
 
-        /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
-        double days_since_new_year = (date - new DateTime(date.Year, calendars["juc"].gregorianStartDate.Month, calendars["juc"].gregorianStartDate.Day)).TotalDays;
-        if (days_since_new_year < 0) days_since_new_year += days_in_juc_year;
-
-        /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
-        day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations)
-        {
-            if (monthD >= day) { break; }
-            day -= monthD;
-            month++;
-        }
-        string month_word = calendars["juc"].monthNames[month - 1];
-
-        return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
-    }
-
-    public static string ConvertTo_MC(DateTime date) {
-        int year = date.Year + calendars["mc"].gregorianYearOffset;
-        string month_word = calendars["mc"].monthNames[date.Month - 1];
-
-        return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
-    }
-
-    public static string ConvertTo_OPC(DateTime date) {
-        /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
-        int month = 1;
-        int day = 1;
-        List<int> adjustedMonthDurations = calendars["opc"].monthDurations;
-
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-18 → 01.01.⁷⁷⁄₀; 2026-03-17 → 22.08.⁷⁶⁄₀)
-        int year = date.Year + calendars["opc"].gregorianYearOffset;
-        if (date.Month < calendars["opc"].gregorianStartDate.Month || (date.Month == calendars["opc"].gregorianStartDate.Month && date.Day < calendars["opc"].gregorianStartDate.Day)) year--;
-        int displayedYear = year;
-
-        /// Calculate century from the year
-        int century = (int)MathF.Floor(year / 100);
-
-        /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
-        if (year < 0 && year % 100 != 0) {
-            century--;
-            while (displayedYear < 0) { displayedYear += 100; }
-        }
-
-        /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
-        int days_in_opc_year = calendars["opc"].monthDurations.Sum();
-        if (calendars["opc"].leapDaysCalculator(year)) {
-            days_in_opc_year += calendars["opc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["opc"].leapDays) {
-                adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+            /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
+            int days_in_juc_year = calendars["juc"].monthDurations.Sum();
+            if (calendars["juc"].leapDaysCalculator(year))
+            {
+                days_in_juc_year += calendars["juc"].leapDays.Values.Sum();
+                foreach (KeyValuePair<int, int> leapDay in calendars["juc"].leapDays)
+                {
+                    adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                }
             }
-        }
 
-        /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
-        double days_since_new_year = (date - new DateTime(date.Year, calendars["opc"].gregorianStartDate.Month, calendars["opc"].gregorianStartDate.Day)).TotalDays;
-        if (days_since_new_year < 0) days_since_new_year += days_in_opc_year;
+            /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
+            double days_since_new_year = (date - new DateTime(date.Year, calendars["juc"].gregorianStartDate.Month, calendars["juc"].gregorianStartDate.Day)).TotalDays;
+            if (days_since_new_year < 0) days_since_new_year += days_in_juc_year;
 
-        /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
-        day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations) {
-            if (monthD >= day) { break; }
-            day -= monthD;
-            month++;
-        }
-        string month_word = calendars["opc"].monthNames[month - 1];
-
-        /// Initialize special display values for year and century, and convert both values to super-/subscript
-        string yearDisplay = "";
-        string centuryDisplay = "";
-
-        foreach (char c in $"{(displayedYear % 100):D2}") {
-            yearDisplay += charToSuperscript[c.ToString()];
-        }
-        foreach (char c in century.ToString()) {
-            centuryDisplay += charToSubscript[c.ToString()];
-        }
-
-        return $"Date: {day:D2}.{month:D2}.{yearDisplay}\u2044{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
-    }
-    
-    public static string ConvertTo_OMC(DateTime date) {
-        /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
-        int month = 1;
-        int day = 1;
-        List<int> adjustedMonthDurations = calendars["omc"].monthDurations;
-
-        // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-06-15 → 01.01.73[0]; 2026-06-14 → 08.04.72[0])
-        int year = date.Year + calendars["omc"].gregorianYearOffset;
-        if (date.Month < calendars["omc"].gregorianStartDate.Month || (date.Month == calendars["omc"].gregorianStartDate.Month && date.Day < calendars["omc"].gregorianStartDate.Day)) year--;
-        int displayedYear = year;
-
-        /// Calculate century from the year
-        int century = (int)MathF.Floor(year / 100);
-
-        /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
-        if (year < 0 && year % 100 != 0) {
-            century--;
-            while (displayedYear < 0) {
-                displayedYear += 100;
+            /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
+            day = (int)days_since_new_year + 1;
+            foreach (int monthD in adjustedMonthDurations)
+            {
+                if (monthD >= day) { break; }
+                day -= monthD;
+                month++;
             }
+            string month_word = calendars["juc"].monthNames[month - 1];
+
+            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
         }
 
-        /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
-        int days_in_omc_year = calendars["omc"].monthDurations.Sum();
-        if (calendars["omc"].leapDaysCalculator(year)) {
-            days_in_omc_year += calendars["omc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["omc"].leapDays) {
-                adjustedMonthDurations[leapDay.Key-1] += leapDay.Value;
+        public static string ConvertTo_MC(DateTime date) {
+            int year = date.Year + calendars["mc"].gregorianYearOffset;
+            string month_word = calendars["mc"].monthNames[date.Month - 1];
+
+            return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+        }
+
+        public static string ConvertTo_OPC(DateTime date) {
+            /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
+            int month = 1;
+            int day = 1;
+            List<int> adjustedMonthDurations = calendars["opc"].monthDurations;
+
+            // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-18 → 01.01.⁷⁷⁄₀; 2026-03-17 → 22.08.⁷⁶⁄₀)
+            int year = date.Year + calendars["opc"].gregorianYearOffset;
+            if (date.Month < calendars["opc"].gregorianStartDate.Month || (date.Month == calendars["opc"].gregorianStartDate.Month && date.Day < calendars["opc"].gregorianStartDate.Day)) year--;
+            int displayedYear = year;
+
+            /// Calculate century from the year
+            int century = (int)MathF.Floor(year / 100);
+
+            /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
+            if (year < 0 && year % 100 != 0) {
+                century--;
+                while (displayedYear < 0) { displayedYear += 100; }
             }
-        }
 
-        /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
-        double days_since_new_year = (date - new DateTime(date.Year, calendars["omc"].gregorianStartDate.Month, calendars["omc"].gregorianStartDate.Day)).TotalDays;
-        if (days_since_new_year < 0) days_since_new_year += days_in_omc_year;
-
-        /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
-        day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations) {
-            if (monthD >= day) { break; }
-            day -= monthD;
-            month++;
-        }
-        string month_word = calendars["omc"].monthNames[month-1];
-
-        return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}[{century}] /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
-    }
-
-    public static string ConvertTo_RC(DateTime date) {
-        int year = date.Year + calendars["rc"].gregorianYearOffset;
-        string month_word = calendars["rc"].monthNames[date.Month - 1];
-
-        return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
-    }
-
-    public static string ConvertTo_GTC(DateTime date) {
-        /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
-        int month = 1;
-        int day = 1;
-        List<int> adjustedMonthDurations = calendars["gtc"].monthDurations;
-
-        /// Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-21 → 01.01.2010; 2026-03-20 → 31.12.2009)
-        int year = date.Year + calendars["gtc"].gregorianYearOffset;
-        if (date.Month < calendars["gtc"].gregorianStartDate.Month || (date.Month == calendars["gtc"].gregorianStartDate.Month && date.Day < calendars["gtc"].gregorianStartDate.Day)) year--;
-
-        /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
-        int days_in_gtc_year = calendars["gtc"].monthDurations.Sum();
-        if (calendars["gtc"].leapDaysCalculator(year)) {
-            days_in_gtc_year += calendars["gtc"].leapDays.Values.Sum();
-            foreach (KeyValuePair<int, int> leapDay in calendars["gtc"].leapDays) {
-                adjustedMonthDurations[leapDay.Key-1] += leapDay.Value;
+            /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
+            int days_in_opc_year = calendars["opc"].monthDurations.Sum();
+            if (calendars["opc"].leapDaysCalculator(year)) {
+                days_in_opc_year += calendars["opc"].leapDays.Values.Sum();
+                foreach (KeyValuePair<int, int> leapDay in calendars["opc"].leapDays) {
+                    adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                }
             }
+
+            /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
+            double days_since_new_year = (date - new DateTime(date.Year, calendars["opc"].gregorianStartDate.Month, calendars["opc"].gregorianStartDate.Day)).TotalDays;
+            if (days_since_new_year < 0) days_since_new_year += days_in_opc_year;
+
+            /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
+            day = (int)days_since_new_year + 1;
+            foreach (int monthD in adjustedMonthDurations) {
+                if (monthD >= day) { break; }
+                day -= monthD;
+                month++;
+            }
+            string month_word = calendars["opc"].monthNames[month - 1];
+
+            /// Initialize special display values for year and century, and convert both values to super-/subscript
+            string yearDisplay = "";
+            string centuryDisplay = "";
+
+            foreach (char c in $"{(displayedYear % 100):D2}") {
+                yearDisplay += charToSuperscript[c.ToString()];
+            }
+            foreach (char c in century.ToString()) {
+                centuryDisplay += charToSubscript[c.ToString()];
+            }
+
+            return $"Date: {day:D2}.{month:D2}.{yearDisplay}\u2044{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
         }
 
-        /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
-        double days_since_new_year = (date - new DateTime(date.Year, calendars["gtc"].gregorianStartDate.Month, calendars["gtc"].gregorianStartDate.Day)).TotalDays;
-        if (days_since_new_year < 0) days_since_new_year += days_in_gtc_year;
+        public static string ConvertTo_OMC(DateTime date) {
+            /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
+            int month = 1;
+            int day = 1;
+            List<int> adjustedMonthDurations = calendars["omc"].monthDurations;
 
-        /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
-        day = (int)days_since_new_year + 1;
-        foreach (int monthD in adjustedMonthDurations) {
-            if (monthD >= day) { break; }
-            day -= monthD;
-            month++;
+            // Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-06-15 → 01.01.73[0]; 2026-06-14 → 08.04.72[0])
+            int year = date.Year + calendars["omc"].gregorianYearOffset;
+            if (date.Month < calendars["omc"].gregorianStartDate.Month || (date.Month == calendars["omc"].gregorianStartDate.Month && date.Day < calendars["omc"].gregorianStartDate.Day)) year--;
+            int displayedYear = year;
+
+            /// Calculate century from the year
+            int century = (int)MathF.Floor(year / 100);
+
+            /// Weird hack: If year is negative and not a multiple of 100, add 100 to displayedYear until it is >= 0, and subtract 1 from century.
+            if (year < 0 && year % 100 != 0) {
+                century--;
+                while (displayedYear < 0) {
+                    displayedYear += 100;
+                }
+            }
+
+            /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
+            int days_in_omc_year = calendars["omc"].monthDurations.Sum();
+            if (calendars["omc"].leapDaysCalculator(year)) {
+                days_in_omc_year += calendars["omc"].leapDays.Values.Sum();
+                foreach (KeyValuePair<int, int> leapDay in calendars["omc"].leapDays) {
+                    adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                }
+            }
+
+            /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
+            double days_since_new_year = (date - new DateTime(date.Year, calendars["omc"].gregorianStartDate.Month, calendars["omc"].gregorianStartDate.Day)).TotalDays;
+            if (days_since_new_year < 0) days_since_new_year += days_in_omc_year;
+
+            /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
+            day = (int)days_since_new_year + 1;
+            foreach (int monthD in adjustedMonthDurations) {
+                if (monthD >= day) { break; }
+                day -= monthD;
+                month++;
+            }
+            string month_word = calendars["omc"].monthNames[month - 1];
+
+            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}[{century}] /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
         }
-        string month_word = calendars["gtc"].monthNames[month-1];
-        
-        return $"Date: {day:D2}.{month:D2}.{year} /// {day:D2}.{month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+
+        public static string ConvertTo_RC(DateTime date) {
+            int year = date.Year + calendars["rc"].gregorianYearOffset;
+            string month_word = calendars["rc"].monthNames[date.Month - 1];
+
+            return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+        }
+
+        public static string ConvertTo_GTC(DateTime date) {
+            /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
+            int month = 1;
+            int day = 1;
+            List<int> adjustedMonthDurations = calendars["gtc"].monthDurations;
+
+            /// Calculate year using current gregorian year ± the offset of the calendar. If the calendar's new year has yet to pass, reduce the year by one. (2026-03-21 → 01.01.2010; 2026-03-20 → 31.12.2009)
+            int year = date.Year + calendars["gtc"].gregorianYearOffset;
+            if (date.Month < calendars["gtc"].gregorianStartDate.Month || (date.Month == calendars["gtc"].gregorianStartDate.Month && date.Day < calendars["gtc"].gregorianStartDate.Day)) year--;
+
+            /// Calculate days in the custom year using the sum of all monthDurations. If this is a leap year, add all extra days from leapDays.
+            int days_in_gtc_year = calendars["gtc"].monthDurations.Sum();
+            if (calendars["gtc"].leapDaysCalculator(year)) {
+                days_in_gtc_year += calendars["gtc"].leapDays.Values.Sum();
+                foreach (KeyValuePair<int, int> leapDay in calendars["gtc"].leapDays) {
+                    adjustedMonthDurations[leapDay.Key - 1] += leapDay.Value;
+                }
+            }
+
+            /// Calculate the amount of days since new year using the total amount of days since current_gregorian_year-start_month_start_day. If this is a negative number, add on the amount of total days in a year to get a positive.
+            double days_since_new_year = (date - new DateTime(date.Year, calendars["gtc"].gregorianStartDate.Month, calendars["gtc"].gregorianStartDate.Day)).TotalDays;
+            if (days_since_new_year < 0) days_since_new_year += days_in_gtc_year;
+
+            /// Set day to days_since_new_year+1, and gradually reduce it down to a realistic day until the current month is yet to be over.
+            day = (int)days_since_new_year + 1;
+            foreach (int monthD in adjustedMonthDurations) {
+                if (monthD >= day) { break; }
+                day -= monthD;
+                month++;
+            }
+            string month_word = calendars["gtc"].monthNames[month - 1];
+
+            return $"Date: {day:D2}.{month:D2}.{year} /// {day:D2}.{month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+        }
     }
 }
