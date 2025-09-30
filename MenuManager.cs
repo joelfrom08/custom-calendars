@@ -1,6 +1,6 @@
 class MenuManager {
     public static string titleString = "Custom Calendar Converter";
-    public static string versionString = $"v1.0.0-beta.100.2";
+    public static string versionString = $"v1.0.0-beta.100.3";
     public static string copyrightString = "(c) 2025 PetByte";
     public static string titleToVersionGradient = "";
 
@@ -31,7 +31,7 @@ class MenuManager {
             int g = (int)(start.g + (end.g - start.g) * gradientPosition);
             int b = (int)(start.b + (end.b - start.b) * gradientPosition);
 
-            titleToVersionGradient += $"\x1b[38;2;{r};{g};{b};48;2;{r};{g};{b}m█";
+            titleToVersionGradient += $"\x1b[38;2;{r};{g};{b};48;2;{r};{g};{b}m█\x1b[0m";
         }
     }
 
@@ -44,12 +44,12 @@ class MenuManager {
         if (!titleStringVisible) { return; }
 
         Console.SetCursorPosition(0, 0);
-        Console.Write($"\x1b[1;3;38;2;0;0;0;48;2;255;111;0m{titleString}\x1b[0m");
+        Console.Write($"\x1b[1;3;38;2;0;0;0;48;2;255;111;0m{titleString}");
         if (versionStringAtTop) {
             Console.SetCursorPosition(Console.WindowWidth - versionString.Length - titleToVersionGradient.Count(x => x == '█'), 0);
             Console.Write(titleToVersionGradient);
         } else {
-            Console.Write("\x1b[38;2;255;111;0;48;2;255;111;0m" + new string('█', Console.WindowWidth-titleString.Length));
+            Console.Write("\x1b[22m" + new string('█', Console.WindowWidth-titleString.Length));
         }
 
         Console.ResetColor();
@@ -65,7 +65,7 @@ class MenuManager {
         int x = Console.WindowWidth - versionString.Length;
         int y = versionStringAtTop ? 0 : Console.WindowHeight;
         Console.SetCursorPosition(x, y);
-        Console.Write($"\x1b[1m{versionString}");
+        Console.Write($"\x1b[1m{versionString}\x1b[22m");
 
         Console.ResetColor();
     }
@@ -77,7 +77,7 @@ class MenuManager {
         Console.BackgroundColor = ConsoleColor.DarkGray;
 
         Console.SetCursorPosition(0, Console.WindowHeight);
-        Console.Write($"\x1b[1m{copyrightString}");
+        Console.Write($"\x1b[1m{copyrightString}\x1b[22m");
         if (!versionStringAtTop || !versionStringVisible) {
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.Write(new string('█', Console.WindowWidth - copyrightString.Length - (versionStringVisible ? versionString.Length : 0)));
@@ -91,20 +91,20 @@ class MenuManager {
             Console.SetCursorPosition((Console.WindowWidth - windowWidth) / 2, ((Console.WindowHeight - windowHeight) / 2) + i);
             if (i == 0) {
                 Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╔");
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m" + new string('═', (windowWidth - windowTitle.Length) / 2 - 2));
-                Console.Write("\x1b[38;2;192;0;0;48;2;192;192;192m " + windowTitle + " ");
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windowTitle.Length) / 2) - 2));
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╗");
+                Console.Write(new string('═', (windowWidth - windowTitle.Length) / 2 - 2));
+                Console.Write("\x1b[38;2;192;0;0m " + windowTitle + " ");
+                Console.Write("\x1b[38;2;160;160;160m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windowTitle.Length) / 2) - 2));
+                Console.Write("╗");
                 Console.Write("\x1b[38;2;0;0;192;48;2;0;0;255m▄▄");
             } else if (i > 0 && i < windowHeight -1) {
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;192;192;192;48;2;192;192;192m" + new string('█', windowWidth - 2) + "\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;0;0;192;48;2;0;0;192m██");
+                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;192;192;192m" + new string('█', windowWidth - 2) + "\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;0;0;192;48;2;0;0;192m██");
             } else {
                 Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╚");
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m" + new string('═', windowWidth - 2));
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╝");
+                Console.Write("" + new string('═', windowWidth - 2));
+                Console.Write("╝");
                 Console.Write("\x1b[38;2;0;0;192;48;2;0;0;192m██");
                 Console.SetCursorPosition(((Console.WindowWidth - windowWidth) / 2) + 1, ((Console.WindowHeight - windowHeight) / 2) + i + 1);
-                Console.Write("\x1b[38;2;0;0;192;48;2;0;0;192m" + new string('█', windowWidth + 1) + "\x1b[38;2;255;255;255m");
+                Console.Write(new string('█', windowWidth + 1) + "\x1b[0m");
             }
         }
     }
