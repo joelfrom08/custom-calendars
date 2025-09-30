@@ -150,7 +150,7 @@ namespace PetByte.CustomCalendars {
 
         public static string ConvertToAllCalendars(DateTime date) {
             string all_calendars = "All Calendars:\n";
-            all_calendars += $"{calendars["jc"].calendarName}: {ConvertTo_JOC(date)}\n";
+            all_calendars += $"{calendars["jc"].calendarName}: {ConvertTo_JC(date)}\n";
             all_calendars += $"{calendars["joc"].calendarName}: {ConvertTo_JOC(date)}\n";
             all_calendars += $"{calendars["nyc"].calendarName}: {ConvertTo_NYC(date)}\n";
             all_calendars += $"{calendars["juc"].calendarName}: {ConvertTo_JUC(date)}\n";
