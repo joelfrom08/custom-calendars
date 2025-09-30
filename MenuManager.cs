@@ -50,7 +50,7 @@ namespace PetByte.CustomCalendars {
                 Console.SetCursorPosition(Console.WindowWidth - versionString.Length - titleToVersionGradient.Count(x => x == '█'), 0);
                 Console.Write(titleToVersionGradient);
             } else {
-                Console.Write("\x1b[22m" + new string('█', Console.WindowWidth - titleString.Length));
+                Console.Write("\x1b[22;3;38;2;255;111;0m" + new string('█', Console.WindowWidth - titleString.Length));
             }
 
             Console.ResetColor();
