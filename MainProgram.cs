@@ -36,7 +36,7 @@
                 MenuManager.DrawTitle();
                 MenuManager.DrawVersion();
                 MenuManager.DrawCopyright();
-                MenuManager.DrawWindow(20, 6);
+                MenuManager.DrawWindow(20, 6, "Input date…");
 
                 consoleWidth = Console.WindowWidth;
                 consoleHeight = Console.WindowHeight;

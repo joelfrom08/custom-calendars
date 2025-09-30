@@ -1,6 +1,6 @@
 class MenuManager {
     public static string titleString = "Custom Calendar Converter";
-    public static string versionString = "v1.0.0-beta.100";
+    public static string versionString = $"v1.0.0-beta.100.2";
     public static string copyrightString = "(c) 2025 PetByte";
     public static string titleToVersionGradient = "";
 
@@ -86,12 +86,14 @@ class MenuManager {
         Console.ResetColor();
     }
     
-    public static void DrawWindow(int windowWidth, int windowHeight) {
+    public static void DrawWindow(int windowWidth, int windowHeight, string windowTitle) {
         for (int i = 0; i < windowHeight; i++) {
             Console.SetCursorPosition((Console.WindowWidth - windowWidth) / 2, ((Console.WindowHeight - windowHeight) / 2) + i);
             if (i == 0) {
                 Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╔");
-                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m" + new string('═', windowWidth - 2));
+                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m" + new string('═', (windowWidth - windowTitle.Length) / 2 - 2));
+                Console.Write("\x1b[38;2;192;0;0;48;2;192;192;192m " + windowTitle + " ");
+                Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windowTitle.Length) / 2) - 2));
                 Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╗");
                 Console.Write("\x1b[38;2;0;0;192;48;2;0;0;255m▄▄");
             } else if (i > 0 && i < windowHeight -1) {
