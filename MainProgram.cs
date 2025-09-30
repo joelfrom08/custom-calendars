@@ -9,13 +9,12 @@
             Task.Run(() => program.CheckForResize());
 
             Console.SetCursorPosition(0, 2);
-            // Console.WriteLine("Enter a date (YYYY-MM-DD):");
             string? inputDate = Console.ReadLine();
 
-            if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) {
-                Console.WriteLine($"Invalid date format. Use YYYY-MM-DD next time. Falling back to today's date ({DateTime.Today.ToString("yyyy-MM-dd")}) for now.");
-                gregorianDate = DateTime.Today;
-            }
+            var menuManager = new MenuManager();
+            menuManager.DrawWindow("calendar_input");
+
+            if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) { gregorianDate = DateTime.Today; }
 
             Console.WriteLine("Accepted Calendar IDs: gregorian | jc | joc | nyc | juc | mc | opc | omc | rc | gtc | all");
             Console.WriteLine("Enter calendar ID:");
@@ -31,13 +30,15 @@
         void CheckForResize() {
             while (true) {
                 if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
+                    Console.Clear();
                     MenuManager.DrawMenuBackground();
                     MenuManager.CalculateBoundaries();
                     MenuManager.CalculateTitleVersionGradient();
                     MenuManager.DrawTitle();
                     MenuManager.DrawVersion();
                     MenuManager.DrawCopyright();
-                    MenuManager.DrawWindow(20, 6, "Input date…");
+                    var menuManager = new MenuManager();
+                    menuManager.DrawWindow(menuManager.currentWindow);
 
                     consoleWidth = Console.WindowWidth;
                     consoleHeight = Console.WindowHeight;

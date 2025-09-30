@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace PetByte.CustomCalendars {
     class MenuManager {
         public static string titleString = "Custom Calendar Converter";
@@ -9,6 +11,44 @@ namespace PetByte.CustomCalendars {
         public static bool versionStringVisible = true;
         public static bool titleStringVisible = true;
         public static bool copyrightStringVisible = true;
+
+        Vector2 currentWindowTL = Vector2.Zero;
+        public string currentWindow = "date_input";
+
+        public static Dictionary<string, WindowInfo> windows = new() {
+            {
+                "date_input",
+                new WindowInfo(
+                    windowName: "Input date…",
+                    topLeftOffset: new Vector2(2, 1),
+                    finalPosition: new Vector2(5, 2),
+                    windowSize: new Vector2(21, 7),
+                    lines: new List<string> {
+                        "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m   YYYY-MM-DD",
+                        "\x1b[48;2;192;192;192m   \x1b[0m          ",
+                        "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
+                        "",
+                        " \x1b[1;38;2;0;192;0;48;2;192;192;192mENTER = CONFIRM\x1b[0m"
+                    }
+                )
+            },
+            {
+                "calendar_input",
+                new WindowInfo(
+                    windowName: "Convert DATE to…",
+                    topLeftOffset: new Vector2(2, 1),
+                    finalPosition: new Vector2(5, 2),
+                    windowSize: new Vector2(25, 15),
+                    lines: new List<string> {
+                        "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m   YYYY-MM-DD",
+                        "\x1b[48;2;192;192;192m   \x1b[0m          ",
+                        "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
+                        "",
+                        " \x1b[1;38;2;0;192;0;48;2;192;192;192mENTER = CONFIRM\x1b[0m"
+                    }
+                )
+            },
+        };
 
         public static void CalculateBoundaries() {
             if (versionString.Length + copyrightString.Length + 1 > Console.WindowWidth) { versionStringVisible = false; } else { versionStringVisible = true; }
@@ -87,14 +127,17 @@ namespace PetByte.CustomCalendars {
             Console.ResetColor();
         }
 
-        public static void DrawWindow(int windowWidth, int windowHeight, string windowTitle) {
+        public void DrawWindow(string windowID) {
+            currentWindow = windowID;
+            int windowWidth = (int)windows[windowID].windowSize.X;
+            int windowHeight =(int)windows[windowID].windowSize.Y;
             for (int i = 0; i < windowHeight; i++) {
                 Console.SetCursorPosition((Console.WindowWidth - windowWidth) / 2, ((Console.WindowHeight - windowHeight) / 2) + i);
                 if (i == 0) {
                     Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╔");
-                    Console.Write(new string('═', (windowWidth - windowTitle.Length) / 2 - 2));
-                    Console.Write("\x1b[38;2;192;0;0m " + windowTitle + " ");
-                    Console.Write("\x1b[38;2;160;160;160m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windowTitle.Length) / 2) - 2));
+                    Console.Write(new string('═', (windowWidth - windows[windowID].windowName.Length) / 2 - 2));
+                    Console.Write("\x1b[38;2;192;0;0m " + windows[windowID].windowName + " ");
+                    Console.Write("\x1b[38;2;160;160;160m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windows[windowID].windowName.Length) / 2) - 2));
                     Console.Write("╗");
                     Console.Write("\x1b[38;2;0;0;192;48;2;0;0;255m▄▄");
                 } else if (i > 0 && i < windowHeight - 1) {
@@ -108,6 +151,20 @@ namespace PetByte.CustomCalendars {
                     Console.Write(new string('█', windowWidth + 1) + "\x1b[0m");
                 }
             }
+
+            var menuManager = new MenuManager();
+            menuManager.currentWindowTL = new Vector2((Console.WindowWidth - windowWidth) / 2, (Console.WindowHeight - windowHeight) / 2);
+            Task.Run(() => menuManager.DrawWindowContents(windowID));
+        }
+
+        void DrawWindowContents(string windowID) {
+            Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].topLeftOffset.X), (int)(currentWindowTL.Y + windows[windowID].topLeftOffset.Y));
+            Console.Write("·");
+            for (int i = 0; i < windows[windowID].lines.Count; i++) {
+                Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].topLeftOffset.X), (int)(currentWindowTL.Y + windows[windowID].topLeftOffset.Y + i));
+                Console.Write(windows[windowID].lines[i]);
+            }
+            Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].finalPosition.X), (int)(currentWindowTL.Y + windows[windowID].finalPosition.Y));
         }
     }
 }
