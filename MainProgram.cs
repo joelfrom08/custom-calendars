@@ -1,18 +1,11 @@
 ﻿class MainProgram {
-    int consoleWidth = Console.WindowWidth;
-    int consoleHeight = Console.WindowHeight;
+    int consoleWidth = 0;
+    int consoleHeight = 0;
     
     static void Main(string[] args) {
         Console.CursorVisible = false;
         var program = new MainProgram();
         Task.Run(() => program.CheckForResize());
-        MenuManager.DrawMenuBackground();
-        MenuManager.CalculateBoundaries();
-        MenuManager.CalculateTitleVersionGradient();
-        MenuManager.DrawTitle();
-        MenuManager.DrawVersion();
-        MenuManager.DrawCopyright();
-        MenuManager.DrawWindow();
 
         Console.SetCursorPosition(0, 2);
         // Console.WriteLine("Enter a date (YYYY-MM-DD):");
@@ -33,7 +26,7 @@
         /// Console.WriteLine($"Gregorian {gregorianDate:yyyy-MM-dd} in {calendarId} calendar, alongside other information...:\n{converted}");
         Console.WriteLine(converted);
     }
-    
+
     void CheckForResize() {
         while (true) {
             if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
@@ -43,7 +36,7 @@
                 MenuManager.DrawTitle();
                 MenuManager.DrawVersion();
                 MenuManager.DrawCopyright();
-                MenuManager.DrawWindow();
+                MenuManager.DrawWindow(20, 6);
 
                 consoleWidth = Console.WindowWidth;
                 consoleHeight = Console.WindowHeight;
