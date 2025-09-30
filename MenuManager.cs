@@ -1,7 +1,7 @@
 namespace PetByte.CustomCalendars {
     class MenuManager {
         public static string titleString = "Custom Calendar Converter";
-        public static string versionString = $"v1.0.0-beta.100.4";
+        public static string versionString = $"{(ThisAssembly.GitCommitId).Substring(0, 10)}";
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
 
