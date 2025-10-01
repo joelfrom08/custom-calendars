@@ -1,4 +1,6 @@
-﻿namespace PetByte.CustomCalendars {
+﻿using System.Text;
+
+namespace PetByte.CustomCalendars {
     static class MainProgram {
         static int consoleWidth = 0;
         static int consoleHeight = 0;
@@ -9,8 +11,7 @@
             Console.CursorVisible = false;
             Task.Run(() => CheckForResize());
 
-            Console.SetCursorPosition(0, 2);
-            string? inputDate = Console.ReadLine();
+            string? inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
             if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { ; }
             MenuManager.DrawWindow("calendar_input");
             
@@ -19,7 +20,6 @@
 
             string converted = ConvertToCalendar(properInputDate, calendarId);
 
-            /// Console.WriteLine($"Gregorian {gregorianDate:yyyy-MM-dd} in {calendarId} calendar, alongside other information...:\n{converted}");
             Console.WriteLine(converted);
         }
 
@@ -81,6 +81,31 @@
                 default:
                     return "Unknown calendar ID.";
             }
+        }
+        
+        static string ReadRestrictedInput(int maxLength, Func<char, bool> isValidCharacter) {
+            var input = new StringBuilder();
+
+            while (true) {
+                var key = Console.ReadKey(intercept: true);
+                
+                if (key.Key == ConsoleKey.Enter) {
+                    Console.WriteLine();
+                    break;
+                } else if (key.Key == ConsoleKey.Backspace) {
+                    if (input.Length > 0) {
+                        input.Length--;
+                        Console.CursorLeft -= 1;
+                        Console.Write(" ");
+                        Console.CursorLeft -= 1;
+                    }
+                } else if (input.Length < maxLength && isValidCharacter(key.KeyChar)) {
+                    input.Append(key.KeyChar);
+                    Console.Write(key.KeyChar);
+                }
+            }
+            
+            return input.ToString();
         }
     }
 }
