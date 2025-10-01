@@ -8,6 +8,8 @@ namespace PetByte.CustomCalendars {
         public static DateTime properInputDate;
 
         static void Main(string[] args) {
+            AppDomain.CurrentDomain.ProcessExit += ProcessEnd;
+            Console.CancelKeyPress += ProcessEnd;
             Console.CursorVisible = false;
             Task.Run(() => CheckForResize());
 
@@ -21,6 +23,16 @@ namespace PetByte.CustomCalendars {
             string converted = ConvertToCalendar(properInputDate, calendarId);
 
             Console.WriteLine(converted);
+        }
+        
+        static void ProcessEnd(object? sender, EventArgs e) {
+            Console.Clear();
+            Console.CursorVisible = true;
+            if (e is ConsoleCancelEventArgs) {
+                Console.Write("\x1b[0m\x1b[33mGoodbye.");
+            } else {
+                Console.WriteLine("\x1b[0m\x1b[33mGoodbye.");
+            }
         }
 
         static void CheckForResize() {
