@@ -15,7 +15,8 @@ namespace PetByte.CustomCalendars {
             if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { ; }
             MenuManager.DrawWindow("calendar_input");
 
-            string calendarId = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a');
+            string inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a');
+            string calendarId = inputCalendar.Length == 1 ? inputCalendar : "a";
 
             string converted = ConvertToCalendar(properInputDate, calendarId);
 
