@@ -1,5 +1,5 @@
 namespace PetByte.CustomCalendars {
-    class CalendarConversion {
+    static class CalendarConversion {
         public static Dictionary<string, CalendarInfo> calendars = new() {
         {
             "jc",
