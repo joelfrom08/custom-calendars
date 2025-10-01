@@ -11,12 +11,11 @@ namespace PetByte.CustomCalendars {
             Console.CursorVisible = false;
             Task.Run(() => CheckForResize());
 
-            string? inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
+            string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
             if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { ; }
             MenuManager.DrawWindow("calendar_input");
-            
-            string? calendarIdInput = Console.ReadLine()?.Trim()?.ToLower() ?? "gregorian";
-            string calendarId = string.IsNullOrEmpty(calendarIdInput) ? "gregorian" : calendarIdInput;
+
+            string calendarId = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a');
 
             string converted = ConvertToCalendar(properInputDate, calendarId);
 
