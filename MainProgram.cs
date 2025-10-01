@@ -1,18 +1,16 @@
 ﻿namespace PetByte.CustomCalendars {
-    class MainProgram {
-        int consoleWidth = 0;
-        int consoleHeight = 0;
+    static class MainProgram {
+        static int consoleWidth = 0;
+        static int consoleHeight = 0;
 
         static void Main(string[] args) {
             Console.CursorVisible = false;
-            var program = new MainProgram();
-            Task.Run(() => program.CheckForResize());
+            Task.Run(() => CheckForResize());
 
             Console.SetCursorPosition(0, 2);
             string? inputDate = Console.ReadLine();
 
-            var menuManager = new MenuManager();
-            menuManager.DrawWindow("calendar_input");
+            MenuManager.DrawWindow("calendar_input");
 
             if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) { gregorianDate = DateTime.Today; }
 
@@ -27,7 +25,7 @@
             Console.WriteLine(converted);
         }
 
-        void CheckForResize() {
+        static void CheckForResize() {
             while (true) {
                 if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
                     Console.Clear();
@@ -37,8 +35,7 @@
                     MenuManager.DrawTitle();
                     MenuManager.DrawVersion();
                     MenuManager.DrawCopyright();
-                    var menuManager = new MenuManager();
-                    menuManager.DrawWindow(menuManager.currentWindow);
+                    MenuManager.DrawWindow(MenuManager.currentWindow);
 
                     consoleWidth = Console.WindowWidth;
                     consoleHeight = Console.WindowHeight;

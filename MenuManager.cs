@@ -1,7 +1,7 @@
 using System.Numerics;
 
 namespace PetByte.CustomCalendars {
-    class MenuManager {
+    static class MenuManager {
         public static string titleString = "Custom Calendar Converter";
         public static string versionString = $"{(ThisAssembly.GitCommitId).Substring(0, 10)}";
         public static string copyrightString = "(c) 2025 PetByte";
@@ -12,8 +12,8 @@ namespace PetByte.CustomCalendars {
         public static bool titleStringVisible = true;
         public static bool copyrightStringVisible = true;
 
-        Vector2 currentWindowTL = Vector2.Zero;
-        public string currentWindow = "date_input";
+        static Vector2 currentWindowTL = Vector2.Zero;
+        public static string currentWindow = "date_input";
 
         public static Dictionary<string, WindowInfo> windows = new() {
             {
@@ -127,7 +127,7 @@ namespace PetByte.CustomCalendars {
             Console.ResetColor();
         }
 
-        public void DrawWindow(string windowID) {
+        public static void DrawWindow(string windowID) {
             currentWindow = windowID;
             int windowWidth = (int)windows[windowID].windowSize.X;
             int windowHeight =(int)windows[windowID].windowSize.Y;
@@ -152,12 +152,11 @@ namespace PetByte.CustomCalendars {
                 }
             }
 
-            var menuManager = new MenuManager();
-            menuManager.currentWindowTL = new Vector2((Console.WindowWidth - windowWidth) / 2, (Console.WindowHeight - windowHeight) / 2);
-            Task.Run(() => menuManager.DrawWindowContents(windowID));
+            currentWindowTL = new Vector2((Console.WindowWidth - windowWidth) / 2, (Console.WindowHeight - windowHeight) / 2);
+            DrawWindowContents(windowID);
         }
 
-        void DrawWindowContents(string windowID) {
+        static void DrawWindowContents(string windowID) {
             Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].topLeftOffset.X), (int)(currentWindowTL.Y + windows[windowID].topLeftOffset.Y));
             Console.Write("·");
             for (int i = 0; i < windows[windowID].lines.Count; i++) {
