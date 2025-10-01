@@ -54,7 +54,7 @@ namespace PetByte.CustomCalendars {
                         "9 — GoodTimes Calendar",
                         "a — (All Calendars)",
                         "",
-                        " \x1b[1;38;2;0;192;0mENTER = CONFIRM\x1b[0m"
+                        " \x1b[1;38;2;0;192;0;48;2;192;192;192mENTER = CONFIRM\x1b[0m"
                     }
                 )
             },

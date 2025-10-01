@@ -40,6 +40,8 @@ namespace PetByte.CustomCalendars {
                 if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
                     Console.Clear();
                     MenuManager.DrawMenuBackground();
+                    Console.SetCursorPosition(0, 1);
+                    Console.Write("\x1b[1;3;38;2;255;0;0;48;2;127;0;127mINFO: Currently, the program exits so quickly,\nthat you are not able to see your results.\nFixing soon.");
                     MenuManager.CalculateBoundaries();
                     MenuManager.CalculateTitleVersionGradient();
                     MenuManager.DrawTitle();
