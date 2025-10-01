@@ -3,23 +3,21 @@
         static int consoleWidth = 0;
         static int consoleHeight = 0;
 
+        public static DateTime properInputDate;
+
         static void Main(string[] args) {
             Console.CursorVisible = false;
             Task.Run(() => CheckForResize());
 
             Console.SetCursorPosition(0, 2);
             string? inputDate = Console.ReadLine();
-
+            if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { ; }
             MenuManager.DrawWindow("calendar_input");
-
-            if (!DateTime.TryParse(inputDate, out DateTime gregorianDate)) { gregorianDate = DateTime.Today; }
-
-            Console.WriteLine("Accepted Calendar IDs: gregorian | jc | joc | nyc | juc | mc | opc | omc | rc | gtc | all");
-            Console.WriteLine("Enter calendar ID:");
+            
             string? calendarIdInput = Console.ReadLine()?.Trim()?.ToLower() ?? "gregorian";
             string calendarId = string.IsNullOrEmpty(calendarIdInput) ? "gregorian" : calendarIdInput;
 
-            string converted = ConvertToCalendar(gregorianDate, calendarId);
+            string converted = ConvertToCalendar(properInputDate, calendarId);
 
             /// Console.WriteLine($"Gregorian {gregorianDate:yyyy-MM-dd} in {calendarId} calendar, alongside other information...:\n{converted}");
             Console.WriteLine(converted);
@@ -50,34 +48,34 @@
                 case "gregorian":
                     return $"{date.Day:D2}.{date.Month:D2}.{date.Year}";
 
-                case "jc":
+                case "1":
                     return CalendarConversion.ConvertTo_JC(date);
 
-                case "joc":
+                case "2":
                     return CalendarConversion.ConvertTo_JOC(date);
 
-                case "nyc":
+                case "3":
                     return CalendarConversion.ConvertTo_NYC(date);
 
-                case "juc":
+                case "4":
                     return CalendarConversion.ConvertTo_JUC(date);
 
-                case "mc":
+                case "5":
                     return CalendarConversion.ConvertTo_MC(date);
 
-                case "opc":
+                case "6":
                     return CalendarConversion.ConvertTo_OPC(date);
 
-                case "omc":
+                case "7":
                     return CalendarConversion.ConvertTo_OMC(date);
 
-                case "rc":
+                case "8":
                     return CalendarConversion.ConvertTo_RC(date);
 
-                case "gtc":
+                case "9":
                     return CalendarConversion.ConvertTo_GTC(date);
 
-                case "all":
+                case "a":
                     return CalendarConversion.ConvertToAllCalendars(date);
 
                 default:

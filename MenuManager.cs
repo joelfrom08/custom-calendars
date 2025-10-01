@@ -35,14 +35,24 @@ namespace PetByte.CustomCalendars {
             {
                 "calendar_input",
                 new WindowInfo(
-                    windowName: "Convert DATE to…",
+                    windowName: "Convert $DATE to…",
                     topLeftOffset: new Vector2(2, 1),
-                    finalPosition: new Vector2(5, 2),
-                    windowSize: new Vector2(25, 15),
+                    finalPosition: new Vector2(21, 1),
+                    windowSize: new Vector2(30, 17),
                     lines: new List<string> {
-                        "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m   YYYY-MM-DD",
-                        "\x1b[48;2;192;192;192m   \x1b[0m          ",
-                        "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
+                        "\x1b[1;3;38;2;160;160;160;48;2;192;192;192mENTER CALENDAR ID: \x1b[0m ",
+                        "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = all)",
+                        "",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m1 — Der joel\'sche Kalender",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m2 — JoCalendar",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m3 — Nicer Years Calendar",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m4 — JulCal",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m5 — Millennium Calendar",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m6 — OpCal",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m7 — OmCal",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m8 — Retrollennium Calendar",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192m9 — GoodTimes Calendar",
+                        "\x1b[0m\x1b[3;38;2;0;0;0;48;2;192;192;192ma — (All Calendars)",
                         "",
                         " \x1b[1;38;2;0;192;0;48;2;192;192;192mENTER = CONFIRM\x1b[0m"
                     }
@@ -130,14 +140,17 @@ namespace PetByte.CustomCalendars {
         public static void DrawWindow(string windowID) {
             currentWindow = windowID;
             int windowWidth = (int)windows[windowID].windowSize.X;
-            int windowHeight =(int)windows[windowID].windowSize.Y;
+            int windowHeight = (int)windows[windowID].windowSize.Y;
+            string windowTitle = windows[windowID].windowName;
+            windowTitle = windowTitle.Replace("$DATE", $"{MainProgram.properInputDate:yyyy-MM-dd}");
+            
             for (int i = 0; i < windowHeight; i++) {
                 Console.SetCursorPosition((Console.WindowWidth - windowWidth) / 2, ((Console.WindowHeight - windowHeight) / 2) + i);
                 if (i == 0) {
                     Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╔");
-                    Console.Write(new string('═', (windowWidth - windows[windowID].windowName.Length) / 2 - 2));
-                    Console.Write("\x1b[38;2;192;0;0m " + windows[windowID].windowName + " ");
-                    Console.Write("\x1b[38;2;160;160;160m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windows[windowID].windowName.Length) / 2) - 2));
+                    Console.Write(new string('═', (windowWidth - windowTitle.Length) / 2 - 2));
+                    Console.Write("\x1b[38;2;192;0;0m " + windowTitle + " ");
+                    Console.Write("\x1b[38;2;160;160;160m" + new string('═', (int)Math.Ceiling((double)(windowWidth - windowTitle.Length) / 2) - 2));
                     Console.Write("╗");
                     Console.Write("\x1b[38;2;0;0;192;48;2;0;0;255m▄▄");
                 } else if (i > 0 && i < windowHeight - 1) {
