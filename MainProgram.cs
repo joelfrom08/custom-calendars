@@ -45,9 +45,6 @@ namespace PetByte.CustomCalendars {
 
         static string ConvertToCalendar(DateTime date, string calendarId) {
             switch (calendarId) {
-                case "gregorian":
-                    return $"{date.Day:D2}.{date.Month:D2}.{date.Year}";
-
                 case "1":
                     return CalendarConversion.ConvertTo_JC(date);
 
