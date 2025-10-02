@@ -217,7 +217,7 @@ namespace PetByte.CustomCalendars {
             if (MainProgram.calendarID == 'a') {
                 Console.Write("\x1b[38;2;0;0;0;48;2;192;192;192m");
                 for (int i = 0; i < CalendarConversion.convertToCalendarFunctions.Count; i++) {
-                    string calendarName = CalendarConversion.calendars.ElementAt(MainProgram.calendarID - '1').Value.calendarName;
+                    string calendarName = CalendarConversion.calendars.ElementAt(i).Value.calendarName;
                     Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3 + i);
                     Console.Write($"{new string(' ', 22 - calendarName.Length)}{calendarName}: " + CalendarConversion.convertToCalendarFunctions[i]);
                 }
