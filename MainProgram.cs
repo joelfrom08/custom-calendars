@@ -17,11 +17,13 @@ namespace PetByte.CustomCalendars {
             string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
             if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else {; }
             MenuManager.DrawWindow("calendar_input");
+            MenuManager.ResetScreen();
 
             char inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a').First();
             calendarID = char.IsDigit(inputCalendar) ? inputCalendar : 'a' ;
 
             MenuManager.DrawWindow("finished_result");
+            MenuManager.ResetScreen();
             Console.ReadLine();
         }
         
@@ -41,14 +43,7 @@ namespace PetByte.CustomCalendars {
                     if (Console.WindowHeight < 24 || Console.WindowWidth < 80) {
                         MenuManager.DrawWindowTooSmall();
                     } else {
-                        Console.Clear();
-                        MenuManager.DrawMenuBackground();
-                        MenuManager.CalculateBoundaries();
-                        MenuManager.CalculateTitleVersionGradient();
-                        MenuManager.DrawTitle();
-                        MenuManager.DrawVersion();
-                        MenuManager.DrawCopyright();
-                        MenuManager.DrawWindow(MenuManager.currentWindow);                        
+                        MenuManager.ResetScreen();                  
                     }
 
                     consoleWidth = Console.WindowWidth;

@@ -227,5 +227,16 @@ namespace PetByte.CustomCalendars {
                 Console.Write($"\x1b[38;2;0;0;0;48;2;192;192;192m{CalendarConversion.calendars.ElementAt(MainProgram.calendarID - '1').Value.calendarName}: " + CalendarConversion.convertToCalendarFunctions[MainProgram.calendarID - '1'] + "\x1b[0m");
             }
         }
+
+        public static void ResetScreen(){
+            Console.Clear();
+            DrawMenuBackground();
+            CalculateBoundaries();
+            CalculateTitleVersionGradient();
+            DrawTitle();
+            DrawVersion();
+            DrawCopyright();
+            DrawWindow(currentWindow);      
+        }
     }
 }
