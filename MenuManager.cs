@@ -178,5 +178,27 @@ namespace PetByte.CustomCalendars {
             }
             Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].finalPosition.X), (int)(currentWindowTL.Y + windows[windowID].finalPosition.Y));
         }
+        
+        public static void DrawWindowTooSmall() {
+            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Console.Write("╔" + new string('═', Console.WindowWidth - 2) + "╗");
+            for (int i = 1; i < Console.WindowHeight - 1; i++) {
+                Console.SetCursorPosition(0, i);
+                Console.Write("║");
+                Console.SetCursorPosition(Console.WindowWidth - 1, i);
+                Console.Write("║");
+            }
+            Console.Write("╚" + new string('═', Console.WindowWidth - 2) + "╝");
+
+            List<string> warningText = new List<string>() { "Window too small", $"({Console.WindowWidth}x{Console.WindowHeight}). Set to", "80x24 or larger." };
+            foreach (string warning in warningText) {
+                Console.SetCursorPosition((Console.WindowWidth - warning.Length) / 2, (int)Math.Ceiling((double)(Console.WindowHeight / 2)) - 1 + warningText.IndexOf(warning));
+                Console.Write("\x1b[1;38;2;192;0;0m" + warning);
+            }
+            Console.Write("\x1b[0m");
+            Console.ResetColor();
+        }
     }
 }

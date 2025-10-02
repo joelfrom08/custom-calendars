@@ -38,16 +38,20 @@ namespace PetByte.CustomCalendars {
         static void CheckForResize() {
             while (true) {
                 if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
-                    Console.Clear();
-                    MenuManager.DrawMenuBackground();
-                    Console.SetCursorPosition(0, 1);
-                    Console.Write("\x1b[1;3;38;2;255;0;0;48;2;127;0;127mINFO: Currently, the program exits so quickly,\nthat you are not able to see your results.\nFixing soon.");
-                    MenuManager.CalculateBoundaries();
-                    MenuManager.CalculateTitleVersionGradient();
-                    MenuManager.DrawTitle();
-                    MenuManager.DrawVersion();
-                    MenuManager.DrawCopyright();
-                    MenuManager.DrawWindow(MenuManager.currentWindow);
+                    if (Console.WindowHeight < 24 || Console.WindowWidth < 80) {
+                        MenuManager.DrawWindowTooSmall();
+                    } else {
+                        Console.Clear();
+                        MenuManager.DrawMenuBackground();
+                        Console.SetCursorPosition(0, 1);
+                        Console.Write("\x1b[1;3;38;2;255;0;0;48;2;63;0;191mINFO: Currently, the program exits so quickly,\nthat you are not able to see your results.\nFixing soon.");
+                        MenuManager.CalculateBoundaries();
+                        MenuManager.CalculateTitleVersionGradient();
+                        MenuManager.DrawTitle();
+                        MenuManager.DrawVersion();
+                        MenuManager.DrawCopyright();
+                        MenuManager.DrawWindow(MenuManager.currentWindow);                        
+                    }
 
                     consoleWidth = Console.WindowWidth;
                     consoleHeight = Console.WindowHeight;
