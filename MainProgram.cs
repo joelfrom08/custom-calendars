@@ -20,8 +20,8 @@ namespace PetByte.CustomCalendars {
             MenuManager.DrawWindow("calendar_input");
             MenuManager.ResetScreen();
 
-            char inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a').First();
-            calendarID = char.IsDigit(inputCalendar) ? inputCalendar : 'a' ;
+            string inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a');
+            calendarID = inputCalendar.Length == 1 ? inputCalendar.First() : 'a';
 
             MenuManager.DrawWindow("finished_result");
             MenuManager.ResetScreen();

@@ -238,7 +238,7 @@ namespace PetByte.CustomCalendars {
             DrawTitle();
             DrawVersion();
             DrawCopyright();
-            DrawWindow(currentWindow);      
+            DrawWindow(currentWindow);
         }
     }
 }
