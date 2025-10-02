@@ -18,12 +18,14 @@ namespace PetByte.CustomCalendars {
             string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
             if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else {; }
             MenuManager.DrawWindow("calendar_input");
+            MenuManager.temporaryInput = "";
             MenuManager.ResetScreen();
 
             string inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a');
             calendarID = inputCalendar.Length == 1 ? inputCalendar.First() : 'a';
 
             MenuManager.DrawWindow("finished_result");
+            MenuManager.temporaryInput = "";
             MenuManager.ResetScreen();
             Console.ReadLine();
         }
@@ -44,7 +46,7 @@ namespace PetByte.CustomCalendars {
                     if (Console.WindowHeight < 24 || Console.WindowWidth < 80) {
                         MenuManager.DrawWindowTooSmall();
                     } else {
-                        MenuManager.ResetScreen();                  
+                        MenuManager.ResetScreen();
                     }
 
                     consoleWidth = Console.WindowWidth;
@@ -66,12 +68,14 @@ namespace PetByte.CustomCalendars {
                 } else if (key.Key == ConsoleKey.Backspace) {
                     if (input.Length > 0) {
                         input.Length--;
+                        MenuManager.temporaryInput = MenuManager.temporaryInput.Remove(MenuManager.temporaryInput.Length - 1, 1);
                         Console.CursorLeft -= 1;
                         Console.Write(" ");
                         Console.CursorLeft -= 1;
                     }
                 } else if (input.Length < maxLength && isValidCharacter(key.KeyChar)) {
                     input.Append(key.KeyChar);
+                    MenuManager.temporaryInput += key.KeyChar;
                     Console.Write(key.KeyChar);
                 }
             }

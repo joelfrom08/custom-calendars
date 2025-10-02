@@ -16,6 +16,8 @@ namespace PetByte.CustomCalendars {
         static Vector2 currentWindowTL = Vector2.Zero;
         public static string currentWindow = "date_input";
 
+        public static string temporaryInput = "";
+
         public static Dictionary<string, WindowInfo> windows = new() {
             {
                 "date_input",
@@ -186,6 +188,7 @@ namespace PetByte.CustomCalendars {
                 Console.Write(windows[windowID].lines[i]);
             }
             Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].finalPosition.X), (int)(currentWindowTL.Y + windows[windowID].finalPosition.Y));
+            Console.Write(temporaryInput);
         }
         
         public static void DrawWindowTooSmall() {
