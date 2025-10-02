@@ -4,7 +4,7 @@ namespace PetByte.CustomCalendars {
         {
             "jc",
             new CalendarInfo(
-                calendarName: "Der joel\'sche Kalender",
+                calendarName: "Der joel'sche Kalender",
                 monthNames: new List<string> { "Nu\u00e4ra", "Hosum\u0101", "Eharfst", "Loharfst", "D\u016bknoff", "Vintur", "Fr\u014dsdur", "F\u00e4quinox", "Blosam", "Sonn\u00fc", "Uprisu" },
                 monthDurations: new List<int> { 35, 35, 35, 35, 35, 35, 35, 35, 35, 35, 15 },
                 leapDays: new Dictionary<int, int> { { 10, 1 } },
@@ -147,7 +147,7 @@ namespace PetByte.CustomCalendars {
             { "9", "\u2089" },
             { "-", "\u208b" }
         };
-        
+
         public static List<string> convertToCalendarFunctions = new() {
             ConvertTo_JC(MainProgram.properInputDate),
             ConvertTo_JOC(MainProgram.properInputDate),

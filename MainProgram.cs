@@ -9,6 +9,7 @@ namespace PetByte.CustomCalendars {
         public static char calendarID;
 
         static void Main(string[] args) {
+            MenuManager.ResetScreen();
             AppDomain.CurrentDomain.ProcessExit += ProcessEnd;
             Console.CancelKeyPress += ProcessEnd;
             Console.CursorVisible = false;
