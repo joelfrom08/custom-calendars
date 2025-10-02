@@ -155,7 +155,7 @@ namespace PetByte.CustomCalendars {
             ConvertTo_JUC(MainProgram.properInputDate),
             ConvertTo_MC(MainProgram.properInputDate),
             ConvertTo_OPC(MainProgram.properInputDate),
-            ConvertTo_MC(MainProgram.properInputDate),
+            ConvertTo_OMC(MainProgram.properInputDate),
             ConvertTo_RC(MainProgram.properInputDate),
             ConvertTo_GTC(MainProgram.properInputDate)
         };
