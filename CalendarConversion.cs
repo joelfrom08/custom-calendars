@@ -121,46 +121,44 @@ namespace PetByte.CustomCalendars {
     };
 
         public static Dictionary<string, string> charToSuperscript = new() {
-        { "0", "\u2070" },
-        { "1", "\u00b9" },
-        { "2", "\u00b2" },
-        { "3", "\u00b3" },
-        { "4", "\u2074" },
-        { "5", "\u2075" },
-        { "6", "\u2076" },
-        { "7", "\u2077" },
-        { "8", "\u2078" },
-        { "9", "\u2079" },
-        { "-", "\u207b" }
-    };
+            { "0", "\u2070" },
+            { "1", "\u00b9" },
+            { "2", "\u00b2" },
+            { "3", "\u00b3" },
+            { "4", "\u2074" },
+            { "5", "\u2075" },
+            { "6", "\u2076" },
+            { "7", "\u2077" },
+            { "8", "\u2078" },
+            { "9", "\u2079" },
+            { "-", "\u207b" }
+        };
 
         public static Dictionary<string, string> charToSubscript = new() {
-        { "0", "\u2080" },
-        { "1", "\u2081" },
-        { "2", "\u2082" },
-        { "3", "\u2083" },
-        { "4", "\u2084" },
-        { "5", "\u2085" },
-        { "6", "\u2086" },
-        { "7", "\u2087" },
-        { "8", "\u2088" },
-        { "9", "\u2089" },
-        { "-", "\u208b" }
-    };
-
-        public static string ConvertToAllCalendars(DateTime date) {
-            string all_calendars = "All Calendars:\n";
-            all_calendars += $"{calendars["jc"].calendarName}: {ConvertTo_JC(date)}\n";
-            all_calendars += $"{calendars["joc"].calendarName}: {ConvertTo_JOC(date)}\n";
-            all_calendars += $"{calendars["nyc"].calendarName}: {ConvertTo_NYC(date)}\n";
-            all_calendars += $"{calendars["juc"].calendarName}: {ConvertTo_JUC(date)}\n";
-            all_calendars += $"{calendars["mc"].calendarName}: {ConvertTo_MC(date)}\n";
-            all_calendars += $"{calendars["opc"].calendarName}: {ConvertTo_OPC(date)}\n";
-            all_calendars += $"{calendars["omc"].calendarName}: {ConvertTo_OMC(date)}\n";
-            all_calendars += $"{calendars["rc"].calendarName}: {ConvertTo_RC(date)}\n";
-            all_calendars += $"{calendars["gtc"].calendarName}: {ConvertTo_GTC(date)}\n";
-            return all_calendars;
-        }
+            { "0", "\u2080" },
+            { "1", "\u2081" },
+            { "2", "\u2082" },
+            { "3", "\u2083" },
+            { "4", "\u2084" },
+            { "5", "\u2085" },
+            { "6", "\u2086" },
+            { "7", "\u2087" },
+            { "8", "\u2088" },
+            { "9", "\u2089" },
+            { "-", "\u208b" }
+        };
+        
+        public static List<string> convertToCalendarFunctions = new() {
+            ConvertTo_JC(MainProgram.properInputDate),
+            ConvertTo_JOC(MainProgram.properInputDate),
+            ConvertTo_NYC(MainProgram.properInputDate),
+            ConvertTo_JUC(MainProgram.properInputDate),
+            ConvertTo_MC(MainProgram.properInputDate),
+            ConvertTo_OPC(MainProgram.properInputDate),
+            ConvertTo_MC(MainProgram.properInputDate),
+            ConvertTo_RC(MainProgram.properInputDate),
+            ConvertTo_GTC(MainProgram.properInputDate)
+        };
 
         public static string ConvertTo_JC(DateTime date) {
             /// Initialize month and day values to start on 01.01.; Additionally, make a copy of monthDurations for later use
@@ -210,7 +208,7 @@ namespace PetByte.CustomCalendars {
                 centuryDisplay += charToSuperscript[c.ToString()];
             }
 
-            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
+            return $"{day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} | {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century} ({month_word})";
         }
 
         public static string ConvertTo_JOC(DateTime date) {
@@ -261,14 +259,14 @@ namespace PetByte.CustomCalendars {
                 centuryDisplay += charToSuperscript[c.ToString()];
             }
 
-            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
+            return $"{day:D2}.{month:D2}.{(displayedYear % 100):D2}{centuryDisplay} | {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century} ({month_word})";
         }
 
         public static string ConvertTo_NYC(DateTime date) {
             int year = date.Year + calendars["nyc"].gregorianYearOffset;
             string month_word = calendars["nyc"].monthNames[date.Month - 1];
 
-            return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+            return $"{date.Day:D2}.{date.Month:D2}.{year} | {date.Day:D2}.{date.Month:D2}.{(year % 100):D2} ({month_word})";
         }
 
         public static string ConvertTo_JUC(DateTime date) {
@@ -317,14 +315,14 @@ namespace PetByte.CustomCalendars {
             }
             string month_word = calendars["juc"].monthNames[month - 1];
 
-            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
+            return $"{day:D2}.{month:D2}.{(displayedYear % 100):D2},{century} ({month_word})";
         }
 
         public static string ConvertTo_MC(DateTime date) {
             int year = date.Year + calendars["mc"].gregorianYearOffset;
             string month_word = calendars["mc"].monthNames[date.Month - 1];
 
-            return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+            return $"{date.Day:D2}.{date.Month:D2}.{year} | {date.Day:D2}.{date.Month:D2}.{(year % 100):D2} ({month_word})";
         }
 
         public static string ConvertTo_OPC(DateTime date) {
@@ -380,7 +378,7 @@ namespace PetByte.CustomCalendars {
                 centuryDisplay += charToSubscript[c.ToString()];
             }
 
-            return $"Date: {day:D2}.{month:D2}.{yearDisplay}\u2044{centuryDisplay} /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
+            return $"{day:D2}.{month:D2}.{yearDisplay}\u2044{centuryDisplay} | {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century} ({month_word})";
         }
 
         public static string ConvertTo_OMC(DateTime date) {
@@ -427,14 +425,14 @@ namespace PetByte.CustomCalendars {
             }
             string month_word = calendars["omc"].monthNames[month - 1];
 
-            return $"Date: {day:D2}.{month:D2}.{(displayedYear % 100):D2}[{century}] /// {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century}\nMonth: {month_word}";
+            return $"{day:D2}.{month:D2}.{(displayedYear % 100):D2}[{century}] | {day:D2}.{month:D2}.{(displayedYear % 100):D2},{century} ({month_word})";
         }
 
         public static string ConvertTo_RC(DateTime date) {
             int year = date.Year + calendars["rc"].gregorianYearOffset;
             string month_word = calendars["rc"].monthNames[date.Month - 1];
 
-            return $"Date: {date.Day:D2}.{date.Month:D2}.{year} /// {date.Day:D2}.{date.Month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+            return $"{date.Day:D2}.{date.Month:D2}.{year} | {date.Day:D2}.{date.Month:D2}.{(year % 100):D2} ({month_word})";
         }
 
         public static string ConvertTo_GTC(DateTime date) {
@@ -469,7 +467,7 @@ namespace PetByte.CustomCalendars {
             }
             string month_word = calendars["gtc"].monthNames[month - 1];
 
-            return $"Date: {day:D2}.{month:D2}.{year} /// {day:D2}.{month:D2}.{(year % 100):D2}\nMonth: {month_word}";
+            return $"{day:D2}.{month:D2}.{year} | {day:D2}.{month:D2}.{(year % 100):D2} ({month_word})";
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Numerics;
 namespace PetByte.CustomCalendars {
     static class MenuManager {
         public static string titleString = "Custom Calendar Converter";
+        // public static string versionString = "v1.0.0";
         public static string versionString = $"{(ThisAssembly.GitCommitId).Substring(0, 10)}";
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
@@ -20,10 +21,10 @@ namespace PetByte.CustomCalendars {
                 "date_input",
                 new WindowInfo(
                     windowName: "Input date…",
-                    topLeftOffset: new Vector2(2, 1),
-                    finalPosition: new Vector2(5, 2),
-                    windowSize: new Vector2(21, 7),
-                    lines: new List<string> {
+                    topLeftOffset: new (2, 1),
+                    finalPosition: new (5, 2),
+                    windowSize: new (21, 7),
+                    lines: new() {
                         "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m   YYYY-MM-DD",
                         "\x1b[48;2;192;192;192m   \x1b[0m          ",
                         "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
@@ -36,10 +37,10 @@ namespace PetByte.CustomCalendars {
                 "calendar_input",
                 new WindowInfo(
                     windowName: "Convert $DATE to…",
-                    topLeftOffset: new Vector2(2, 1),
-                    finalPosition: new Vector2(21, 1),
-                    windowSize: new Vector2(30, 17),
-                    lines: new List<string> {
+                    topLeftOffset: new (2, 1),
+                    finalPosition: new (21, 1),
+                    windowSize: new (30, 17),
+                    lines: new() {
                         "\x1b[1;3;38;2;160;160;160;48;2;192;192;192mENTER CALENDAR ID: \x1b[0m ",
                         "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = all)",
                         "",
@@ -58,6 +59,16 @@ namespace PetByte.CustomCalendars {
                     }
                 )
             },
+            {
+                "finished_result",
+                new WindowInfo(
+                    windowName: "Conversion Result",
+                    topLeftOffset: new (2, 1),
+                    finalPosition: new (0, 0),
+                    windowSize: new (67, 16),
+                    lines: new() { }
+                )
+            }
         };
 
         public static void CalculateBoundaries() {
@@ -166,12 +177,10 @@ namespace PetByte.CustomCalendars {
             }
 
             currentWindowTL = new Vector2((Console.WindowWidth - windowWidth) / 2, (Console.WindowHeight - windowHeight) / 2);
-            DrawWindowContents(windowID);
+            if (windowID == "finished_result") { DrawResult(); } else { DrawWindowContents(windowID); }
         }
 
         static void DrawWindowContents(string windowID) {
-            Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].topLeftOffset.X), (int)(currentWindowTL.Y + windows[windowID].topLeftOffset.Y));
-            Console.Write("·");
             for (int i = 0; i < windows[windowID].lines.Count; i++) {
                 Console.SetCursorPosition((int)(currentWindowTL.X + windows[windowID].topLeftOffset.X), (int)(currentWindowTL.Y + windows[windowID].topLeftOffset.Y + i));
                 Console.Write(windows[windowID].lines[i]);
@@ -192,13 +201,31 @@ namespace PetByte.CustomCalendars {
             }
             Console.Write("╚" + new string('═', Console.WindowWidth - 2) + "╝");
 
-            List<string> warningText = new List<string>() { "Window too small", $"({Console.WindowWidth}x{Console.WindowHeight}). Set to", "80x24 or larger." };
+            List<string> warningText = new List<string> { "Window too small", $"({Console.WindowWidth}x{Console.WindowHeight}). Set to", "80x24 or larger." };
             foreach (string warning in warningText) {
                 Console.SetCursorPosition((Console.WindowWidth - warning.Length) / 2, (int)Math.Ceiling((double)(Console.WindowHeight / 2)) - 1 + warningText.IndexOf(warning));
                 Console.Write("\x1b[1;38;2;192;0;0m" + warning);
             }
             Console.Write("\x1b[0m");
             Console.ResetColor();
+        }
+        
+        static void DrawResult() {
+            Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 1);
+            Console.Write("\x1b[38;2;0;0;0;48;2;192;192;192m");
+            Console.Write($"The Gregorian date \x1b[1m{MainProgram.properInputDate:yyyy-MM-dd}\x1b[22m converts to…\x1b[0m");
+            if (MainProgram.calendarID == 'a') {
+                Console.Write("\x1b[38;2;0;0;0;48;2;192;192;192m");
+                for (int i = 0; i < CalendarConversion.convertToCalendarFunctions.Count; i++) {
+                    Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3 + i);
+                    Console.Write($"{CalendarConversion.calendars.ElementAt(i).Value.calendarName}: " + CalendarConversion.convertToCalendarFunctions[i]);
+                }
+                Console.Write("\x1b[0m");
+                return;
+            } else {
+                Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3);
+                Console.Write($"\x1b[38;2;0;0;0;48;2;192;192;192m{CalendarConversion.calendars.ElementAt(MainProgram.calendarID - '1').Value.calendarName}: " + CalendarConversion.convertToCalendarFunctions[MainProgram.calendarID - '1'] + "\x1b[0m");
+            }
         }
     }
 }

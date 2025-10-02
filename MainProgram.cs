@@ -6,6 +6,7 @@ namespace PetByte.CustomCalendars {
         static int consoleHeight = 0;
 
         public static DateTime properInputDate;
+        public static char calendarID;
 
         static void Main(string[] args) {
             AppDomain.CurrentDomain.ProcessExit += ProcessEnd;
@@ -14,15 +15,14 @@ namespace PetByte.CustomCalendars {
             Task.Run(() => CheckForResize());
 
             string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
-            if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { ; }
+            if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else {; }
             MenuManager.DrawWindow("calendar_input");
 
-            string inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a');
-            string calendarId = inputCalendar.Length == 1 ? inputCalendar : "a";
+            char inputCalendar = ReadRestrictedInput(1, c => char.IsDigit(c) && c != '0' || c == 'a').First();
+            calendarID = char.IsDigit(inputCalendar) ? inputCalendar : 'a' ;
 
-            string converted = ConvertToCalendar(properInputDate, calendarId);
-
-            Console.WriteLine(converted);
+            MenuManager.DrawWindow("finished_result");
+            Console.ReadLine();
         }
         
         static void ProcessEnd(object? sender, EventArgs e) {
@@ -43,8 +43,6 @@ namespace PetByte.CustomCalendars {
                     } else {
                         Console.Clear();
                         MenuManager.DrawMenuBackground();
-                        Console.SetCursorPosition(0, 1);
-                        Console.Write("\x1b[1;3;38;2;255;0;0;48;2;63;0;191mINFO: Currently, the program exits so quickly,\nthat you are not able to see your results.\nFixing soon.");
                         MenuManager.CalculateBoundaries();
                         MenuManager.CalculateTitleVersionGradient();
                         MenuManager.DrawTitle();
@@ -57,44 +55,6 @@ namespace PetByte.CustomCalendars {
                     consoleHeight = Console.WindowHeight;
                 }
                 Thread.Sleep(1);
-            }
-        }
-
-
-        static string ConvertToCalendar(DateTime date, string calendarId) {
-            switch (calendarId) {
-                case "1":
-                    return CalendarConversion.ConvertTo_JC(date);
-
-                case "2":
-                    return CalendarConversion.ConvertTo_JOC(date);
-
-                case "3":
-                    return CalendarConversion.ConvertTo_NYC(date);
-
-                case "4":
-                    return CalendarConversion.ConvertTo_JUC(date);
-
-                case "5":
-                    return CalendarConversion.ConvertTo_MC(date);
-
-                case "6":
-                    return CalendarConversion.ConvertTo_OPC(date);
-
-                case "7":
-                    return CalendarConversion.ConvertTo_OMC(date);
-
-                case "8":
-                    return CalendarConversion.ConvertTo_RC(date);
-
-                case "9":
-                    return CalendarConversion.ConvertTo_GTC(date);
-
-                case "a":
-                    return CalendarConversion.ConvertToAllCalendars(date);
-
-                default:
-                    return "Unknown calendar ID.";
             }
         }
         
