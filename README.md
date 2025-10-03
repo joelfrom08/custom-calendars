@@ -42,7 +42,7 @@ A nicer interface to quit will be implemented soon.
 Please open an issue if you encounter any bugs! As this is a personal project, I can't guarantee specific response times.
 
 ## License
-MIT License - see [LICENSE](LICENSE) file for details.
+MIT License — see [LICENSE](LICENSE) file for details.
 
 ## Contributing
 I appreciate the interest, but as this is a personal project, I'm not accepting pull requests at this time.
