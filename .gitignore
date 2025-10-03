@@ -397,6 +397,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -420,3 +421,6 @@ FodyWeavers.xsd
 # Mac Stuffs
 ._*
 .DS_Store
+
+# Other
+dist/
