@@ -191,7 +191,7 @@ namespace PetByte.CustomCalendars {
         }
         
         public static void DrawWindowTooSmall() {
-            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.BackgroundColor = ConsoleColor.DarkMagenta;
             Console.Clear();
             Console.SetCursorPosition(0, 0);
             Console.Write("╔" + new string('═', Console.BufferWidth - 2) + "╗");
@@ -206,7 +206,7 @@ namespace PetByte.CustomCalendars {
             List<string> warningText = new List<string> { "Window too small", $"({Console.BufferWidth}x{Console.BufferHeight}). Set to", "80x24 or larger." };
             foreach (string warning in warningText) {
                 Console.SetCursorPosition((Console.BufferWidth - warning.Length) / 2, (int)Math.Ceiling((double)(Console.BufferHeight / 2)) - 1 + warningText.IndexOf(warning));
-                Console.Write("\x1b[1;38;2;192;0;0m" + warning);
+                Console.Write("\x1b[1;38;2;255;0;0m" + warning);
             }
             Console.Write("\x1b[0m");
             Console.ResetColor();
