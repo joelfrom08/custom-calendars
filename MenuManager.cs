@@ -73,17 +73,17 @@ namespace PetByte.CustomCalendars {
         };
 
         public static void CalculateBoundaries() {
-            if (versionString.Length + copyrightString.Length + 1 > Console.WindowWidth) { versionStringVisible = false; } else { versionStringVisible = true; }
-            if (versionString.Length + titleString.Length + 7 > Console.WindowWidth) { versionStringAtTop = false; } else { versionStringAtTop = true; }
+            if (versionString.Length + copyrightString.Length + 1 > Console.BufferWidth) { versionStringVisible = false; } else { versionStringVisible = true; }
+            if (versionString.Length + titleString.Length + 7 > Console.BufferWidth) { versionStringAtTop = false; } else { versionStringAtTop = true; }
 
-            if (titleString.Length > Console.WindowWidth) { titleStringVisible = false; } else { titleStringVisible = true; }
+            if (titleString.Length > Console.BufferWidth) { titleStringVisible = false; } else { titleStringVisible = true; }
 
-            if (copyrightString.Length + 2 > Console.WindowWidth) { copyrightStringVisible = false; } else { copyrightStringVisible = true; }
+            if (copyrightString.Length + 2 > Console.BufferWidth) { copyrightStringVisible = false; } else { copyrightStringVisible = true; }
         }
 
         public static void CalculateTitleVersionGradient() {
             titleToVersionGradient = "";
-            int steps = Console.WindowWidth - titleString.Length - versionString.Length;
+            int steps = Console.BufferWidth - titleString.Length - versionString.Length;
             if (steps < 3) { return; }
             (int r, int g, int b) start = (255, 111, 0);
             (int r, int g, int b) end = (102, 102, 102);
@@ -109,10 +109,10 @@ namespace PetByte.CustomCalendars {
             Console.SetCursorPosition(0, 0);
             Console.Write($"\x1b[1;3;30;48;2;255;111;0m{titleString}");
             if (versionStringAtTop) {
-                Console.SetCursorPosition(Console.WindowWidth - versionString.Length - titleToVersionGradient.Count(x => x == ' '), 0);
+                Console.SetCursorPosition(Console.BufferWidth - versionString.Length - titleToVersionGradient.Count(x => x == ' '), 0);
                 Console.Write(titleToVersionGradient);
             } else {
-                Console.Write("\x1b[22;38;2;255;111;0m" + new string('█', Console.WindowWidth - titleString.Length));
+                Console.Write("\x1b[22;38;2;255;111;0m" + new string('█', Console.BufferWidth - titleString.Length));
             }
 
             Console.ResetColor();
@@ -125,8 +125,8 @@ namespace PetByte.CustomCalendars {
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkGray;
 
-            int x = Console.WindowWidth - versionString.Length;
-            int y = versionStringAtTop ? 0 : Console.WindowHeight;
+            int x = Console.BufferWidth - versionString.Length;
+            int y = versionStringAtTop ? 0 : Console.BufferHeight;
             Console.SetCursorPosition(x, y);
             Console.Write($"\x1b[1m{versionString}\x1b[22m");
 
@@ -143,7 +143,7 @@ namespace PetByte.CustomCalendars {
             Console.Write($"\x1b[1m{copyrightString}\x1b[22m");
             if (!versionStringAtTop || !versionStringVisible) {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
-                Console.Write(new string('█', Console.WindowWidth - copyrightString.Length - (versionStringVisible ? versionString.Length : 0)));
+                Console.Write(new string('█', Console.BufferWidth - copyrightString.Length - (versionStringVisible ? versionString.Length : 0)));
             }
 
             Console.ResetColor();
@@ -157,7 +157,7 @@ namespace PetByte.CustomCalendars {
             windowTitle = windowTitle.Replace("$DATE", $"{MainProgram.properInputDate:yyyy-MM-dd}");
             
             for (int i = 0; i < windowHeight; i++) {
-                Console.SetCursorPosition((Console.WindowWidth - windowWidth) / 2, ((Console.WindowHeight - windowHeight) / 2) + i);
+                Console.SetCursorPosition((Console.BufferWidth - windowWidth) / 2, ((Console.BufferHeight - windowHeight) / 2) + i);
                 if (i == 0) {
                     Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╔");
                     Console.Write(new string('═', (windowWidth - windowTitle.Length) / 2 - 2));
@@ -172,12 +172,12 @@ namespace PetByte.CustomCalendars {
                     Console.Write("" + new string('═', windowWidth - 2));
                     Console.Write("╝");
                     Console.Write("\x1b[38;2;0;0;192;48;2;0;0;192m██");
-                    Console.SetCursorPosition(((Console.WindowWidth - windowWidth) / 2) + 1, ((Console.WindowHeight - windowHeight) / 2) + i + 1);
+                    Console.SetCursorPosition(((Console.BufferWidth - windowWidth) / 2) + 1, ((Console.BufferHeight - windowHeight) / 2) + i + 1);
                     Console.Write(new string('█', windowWidth + 1) + "\x1b[0m");
                 }
             }
 
-            currentWindowTL = new Vector2((Console.WindowWidth - windowWidth) / 2, (Console.WindowHeight - windowHeight) / 2);
+            currentWindowTL = new Vector2((Console.BufferWidth - windowWidth) / 2, (Console.BufferHeight - windowHeight) / 2);
             if (windowID == "finished_result") { DrawResult(); } else { DrawWindowContents(windowID); }
         }
 
@@ -194,18 +194,18 @@ namespace PetByte.CustomCalendars {
             Console.BackgroundColor = ConsoleColor.Magenta;
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            Console.Write("╔" + new string('═', Console.WindowWidth - 2) + "╗");
-            for (int i = 1; i < Console.WindowHeight - 1; i++) {
+            Console.Write("╔" + new string('═', Console.BufferWidth - 2) + "╗");
+            for (int i = 1; i < Console.BufferHeight - 1; i++) {
                 Console.SetCursorPosition(0, i);
                 Console.Write("║");
-                Console.SetCursorPosition(Console.WindowWidth - 1, i);
+                Console.SetCursorPosition(Console.BufferWidth - 1, i);
                 Console.Write("║");
             }
-            Console.Write("╚" + new string('═', Console.WindowWidth - 2) + "╝");
+            Console.Write("╚" + new string('═', Console.BufferWidth - 2) + "╝");
 
-            List<string> warningText = new List<string> { "Window too small", $"({Console.WindowWidth}x{Console.WindowHeight}). Set to", "80x24 or larger." };
+            List<string> warningText = new List<string> { "Window too small", $"({Console.BufferWidth}x{Console.BufferHeight}). Set to", "80x24 or larger." };
             foreach (string warning in warningText) {
-                Console.SetCursorPosition((Console.WindowWidth - warning.Length) / 2, (int)Math.Ceiling((double)(Console.WindowHeight / 2)) - 1 + warningText.IndexOf(warning));
+                Console.SetCursorPosition((Console.BufferWidth - warning.Length) / 2, (int)Math.Ceiling((double)(Console.BufferHeight / 2)) - 1 + warningText.IndexOf(warning));
                 Console.Write("\x1b[1;38;2;192;0;0m" + warning);
             }
             Console.Write("\x1b[0m");
@@ -234,11 +234,11 @@ namespace PetByte.CustomCalendars {
         }
 
         public static void DrawInvalidInput() {
-            Console.SetCursorPosition((Console.WindowWidth - 29) / 2, 1);
+            Console.SetCursorPosition((Console.BufferWidth - 29) / 2, 1);
             Console.BackgroundColor = ConsoleColor.Magenta;
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.Write("Invalid Input. Leave empty or");
-            Console.SetCursorPosition((Console.WindowWidth - 32) / 2, 2);
+            Console.SetCursorPosition((Console.BufferWidth - 32) / 2, 2);
             Console.Write("write in full YYYY-MM-DD format.");
             Thread.Sleep(1500);
             temporaryInput = "";

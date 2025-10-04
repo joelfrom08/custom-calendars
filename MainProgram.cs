@@ -45,8 +45,8 @@ namespace PetByte.CustomCalendars {
 
         static void CheckForResize() {
             while (true) {
-                if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
-                    if (Console.WindowHeight < 24 || Console.WindowWidth < 80) {
+                if (Console.BufferWidth != consoleWidth || Console.BufferHeight != consoleHeight) {
+                    if (Console.BufferHeight < 24 || Console.BufferWidth < 80) {
                         MenuManager.DrawWindowTooSmall();
                         windowTooSmall = true;
                     } else {
@@ -54,8 +54,8 @@ namespace PetByte.CustomCalendars {
                         windowTooSmall = false;
                     }
 
-                    consoleWidth = Console.WindowWidth;
-                    consoleHeight = Console.WindowHeight;
+                    consoleWidth = Console.BufferWidth;
+                    consoleHeight = Console.BufferHeight;
                 }
                 Thread.Sleep(25);
             }
