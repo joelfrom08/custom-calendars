@@ -4,9 +4,7 @@ using System.Numerics;
 namespace PetByte.CustomCalendars {
     static class MenuManager {
         public static string titleString = "Custom Calendar Converter";
-        public static string versionString = "v1.0.1";
-        public static string hashString = ThisAssembly.GitCommitId.Substring(0, 10);
-        static bool devVersion = true;
+        public static string versionString = ThisAssembly.AssemblyInformationalVersion.Replace(".0+", "+");
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
 
@@ -85,7 +83,7 @@ namespace PetByte.CustomCalendars {
 
         public static void CalculateTitleVersionGradient() {
             titleToVersionGradient = "";
-            int steps = Console.WindowWidth - titleString.Length - (devVersion ? hashString.Length : versionString.Length);
+            int steps = Console.WindowWidth - titleString.Length - versionString.Length;
             if (steps < 3) { return; }
             (int r, int g, int b) start = (255, 111, 0);
             (int r, int g, int b) end = (102, 102, 102);
@@ -111,7 +109,7 @@ namespace PetByte.CustomCalendars {
             Console.SetCursorPosition(0, 0);
             Console.Write($"\x1b[1;3;30;48;2;255;111;0m{titleString}");
             if (versionStringAtTop) {
-                Console.SetCursorPosition(Console.WindowWidth - (devVersion ? hashString.Length : versionString.Length) - titleToVersionGradient.Count(x => x == ' '), 0);
+                Console.SetCursorPosition(Console.WindowWidth - versionString.Length - titleToVersionGradient.Count(x => x == ' '), 0);
                 Console.Write(titleToVersionGradient);
             } else {
                 Console.Write("\x1b[22;38;2;255;111;0m" + new string('█', Console.WindowWidth - titleString.Length));
@@ -147,18 +145,6 @@ namespace PetByte.CustomCalendars {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write(new string('█', Console.WindowWidth - copyrightString.Length - (versionStringVisible ? versionString.Length : 0)));
             }
-
-            Console.ResetColor();
-        }
-
-        public static void DrawHash() {
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-
-            int x = devVersion ? Console.WindowWidth - hashString.Length : copyrightString.Length;
-            int y = devVersion ? 0 : Console.WindowHeight;
-            Console.SetCursorPosition(x, y);
-            Console.Write($"\x1b[1m{(devVersion ? "" : new string(' ', Console.WindowWidth - copyrightString.Length - hashString.Length))}{hashString}\x1b[22m");
 
             Console.ResetColor();
         }
@@ -268,7 +254,6 @@ namespace PetByte.CustomCalendars {
             DrawTitle();
             DrawVersion();
             DrawCopyright();
-            DrawHash();
             DrawWindow(currentWindow);
         }
     }
