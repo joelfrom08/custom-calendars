@@ -28,7 +28,7 @@ namespace PetByte.CustomCalendars {
             MenuManager.DrawWindow("finished_result");
             MenuManager.temporaryInput = "";
             MenuManager.ResetScreen();
-            
+
             Console.ReadKey(true);
             Environment.Exit(0);
         }

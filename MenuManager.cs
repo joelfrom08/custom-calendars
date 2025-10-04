@@ -224,13 +224,15 @@ namespace PetByte.CustomCalendars {
                     Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3 + i);
                     Console.Write($"{new string(' ', 22 - calendarName.Length)}{calendarName}: " + CalendarConversion.convertToCalendarFunctions[i]);
                 }
-                Console.Write("\x1b[0m");
-                return;
             } else {
                 Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3);
                 string calendarName = CalendarConversion.calendars.ElementAt(MainProgram.calendarID - '1').Value.calendarName;
                 Console.Write($"\x1b[38;2;0;0;0;48;2;192;192;192m{calendarName}: " + CalendarConversion.convertToCalendarFunctions[MainProgram.calendarID - '1'] + "\x1b[0m");
             }
+
+            Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)(currentWindowTL.Y + windows[currentWindow].windowSize.Y - 2));
+            Console.Write("\x1b[1;3;32mPress any key to exit.");
+            Console.Write("\x1b[0m");
         }
 
         public static void ResetScreen(){
