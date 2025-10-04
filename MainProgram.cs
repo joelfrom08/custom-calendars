@@ -37,9 +37,9 @@ namespace PetByte.CustomCalendars {
             Console.Clear();
             Console.CursorVisible = true;
             if (e is ConsoleCancelEventArgs) {
-                Console.Write("\x1b[33mGoodbye.");
+                Console.Write("\x1b[33mGoodbye.\x1b[0m");
             } else {
-                Console.WriteLine("\x1b[33mGoodbye.");
+                Console.WriteLine("\x1b[33mGoodbye.\x1b[0m");
             }
         }
 
