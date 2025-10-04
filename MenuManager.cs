@@ -139,7 +139,7 @@ namespace PetByte.CustomCalendars {
             Console.ForegroundColor = ConsoleColor.White;
             Console.BackgroundColor = ConsoleColor.DarkGray;
 
-            Console.SetCursorPosition(0, Console.WindowHeight);
+            Console.SetCursorPosition(0, Console.BufferHeight - 1);
             Console.Write($"\x1b[1m{copyrightString}\x1b[22m");
             if (!versionStringAtTop || !versionStringVisible) {
                 Console.ForegroundColor = ConsoleColor.DarkGray;
