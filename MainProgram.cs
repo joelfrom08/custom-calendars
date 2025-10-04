@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 
 namespace PetByte.CustomCalendars {
     static class MainProgram {
@@ -10,6 +11,7 @@ namespace PetByte.CustomCalendars {
         public static bool windowTooSmall = false;
 
         static void Main(string[] args) {
+            CheckIfModernTerminal();
             MenuManager.ResetScreen();
             AppDomain.CurrentDomain.ProcessExit += ProcessEnd;
             Console.CancelKeyPress += ProcessEnd;
@@ -30,6 +32,27 @@ namespace PetByte.CustomCalendars {
 
             Console.ReadKey(true);
             Environment.Exit(0);
+        }
+        
+        static void CheckIfModernTerminal() {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TERM"))) {
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.WriteLine("This program requires a modern terminal such as, but not limited to:");
+                Console.WriteLine("- Windows Terminal");
+                Console.WriteLine("   - Download here: https://aka.ms/terminal");
+                Console.WriteLine("- Git Bash");
+                Console.WriteLine("   - Download here: https://git-scm.com/downloads/win");
+                Console.WriteLine("Other Terminals may be supported but have not been tested.");
+                Console.WriteLine();
+                Console.WriteLine("Press any key to exit...");
+                Console.CursorVisible = false;
+                Console.ReadKey();
+                Console.CursorVisible = true;
+                Console.ResetColor();
+                Environment.Exit(1);
+            }
         }
         
         static void ProcessEnd(object? sender, EventArgs e) {
