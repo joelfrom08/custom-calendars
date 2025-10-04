@@ -14,7 +14,7 @@ Download the executable for your operating system from the [releases page](https
 
 **Supported platforms:**
 - `win-x64` (Windows 64-bit)
-    - Tested on Windows 10 22H2 using Modern Terminal and Git Bash\* ***(SEE BELOW)***
+    - Tested on Windows 10 22H2 using Modern Terminal and Git Bash
 - `osx-arm64` (macOS Apple Silicon)
     - Tested on M1 MacBook Pro (2020), macOS 26.0.0, using default terminal
 - `osx-x64` (macOS Intel)
@@ -23,12 +23,9 @@ Download the executable for your operating system from the [releases page](https
     - Tested on Ubuntu 25.04 (Kernel 6.14.0-15-generic) using the default terminal
 - *More may be coming in a future release*
 
-> ⚠️🐛 **Known Issue — Windows Support**
+> ⚠️ **Informaton regarding Windows Support**
 > 
-> The Windows build currently, as of *v1.0.1*, has major display issues in Windows 10 and 11 Command Prompt and PowerShell. Core functionality *does* work, it's just easily legible.
-> 
-> Using Git Bash or the modern Windows Terminal results in proper display, though crashes on startup.
-> - **Status:** A fix will be shipped with *v1.0.2*, though it will REQUIRE [Modern Terminal](https://aka.ms/terminal). Support for Command Prompt and PowerShell will NOT be supported, though support MAY be added with *v2.0.0*.
+> Starting with v1.0.2, Windows builds require [Modern Terminal](https://aka.ms/terminal) or an equivalently new terminal, such as Git Bash.
 
 **How to launch:**
 - `osx-arm64`, `osx-x64`, `linux-x64`: Using your terminal of choice, navigate to the directory to which you downloaded the executable, and run `./CustomCalendars-[OS]`. Replace `[OS]` with `macos-arm`, `macos-x64`, or `linux` respectively.
