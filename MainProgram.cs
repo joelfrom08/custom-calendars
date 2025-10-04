@@ -31,6 +31,7 @@ namespace PetByte.CustomCalendars {
         }
         
         static void ProcessEnd(object? sender, EventArgs e) {
+            Console.ResetColor();
             Console.Clear();
             Console.CursorVisible = true;
             if (e is ConsoleCancelEventArgs) {
