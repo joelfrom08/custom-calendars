@@ -7,6 +7,7 @@ namespace PetByte.CustomCalendars {
 
         public static DateTime properInputDate;
         public static char calendarID;
+        public static bool windowTooSmall = false;
 
         static void Main(string[] args) {
             MenuManager.ResetScreen();
@@ -16,7 +17,7 @@ namespace PetByte.CustomCalendars {
             Task.Run(() => CheckForResize());
 
             string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
-            if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else {; }
+            if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { }
             MenuManager.DrawWindow("calendar_input");
             MenuManager.temporaryInput = "";
             MenuManager.ResetScreen();
@@ -46,8 +47,10 @@ namespace PetByte.CustomCalendars {
                 if (Console.WindowWidth != consoleWidth || Console.WindowHeight != consoleHeight) {
                     if (Console.WindowHeight < 24 || Console.WindowWidth < 80) {
                         MenuManager.DrawWindowTooSmall();
+                        windowTooSmall = true;
                     } else {
                         MenuManager.ResetScreen();
+                        windowTooSmall = false;
                     }
 
                     consoleWidth = Console.WindowWidth;
@@ -62,6 +65,8 @@ namespace PetByte.CustomCalendars {
 
             while (true) {
                 var key = Console.ReadKey(intercept: true);
+                
+                if (windowTooSmall) { continue; }
                 
                 if (key.Key == ConsoleKey.Enter) {
                     Console.WriteLine();
