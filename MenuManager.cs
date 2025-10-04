@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Numerics;
 
 namespace PetByte.CustomCalendars {
@@ -5,7 +6,7 @@ namespace PetByte.CustomCalendars {
         public static string titleString = "Custom Calendar Converter";
         public static string versionString = "v1.0.1";
         public static string hashString = ThisAssembly.GitCommitId.Substring(0, 10);
-        static bool devVersion = false;
+        static bool devVersion = true;
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
 
@@ -246,7 +247,20 @@ namespace PetByte.CustomCalendars {
             Console.Write("\x1b[0m");
         }
 
+        public static void DrawInvalidInput() {
+            Console.SetCursorPosition((Console.WindowWidth - 29) / 2, 1);
+            Console.BackgroundColor = ConsoleColor.Magenta;
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.Write("Invalid Input. Leave empty or");
+            Console.SetCursorPosition((Console.WindowWidth - 32) / 2, 2);
+            Console.Write("write in full YYYY-MM-DD format.");
+            Thread.Sleep(1500);
+            temporaryInput = "";
+            ResetScreen();
+        }
+
         public static void ResetScreen(){
+            Console.ResetColor();
             Console.Clear();
             DrawMenuBackground();
             CalculateBoundaries();

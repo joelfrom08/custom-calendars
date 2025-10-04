@@ -16,8 +16,7 @@ namespace PetByte.CustomCalendars {
             Console.CursorVisible = false;
             Task.Run(() => CheckForResize());
 
-            string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
-            if (!DateTime.TryParse(inputDate, out properInputDate)) { properInputDate = DateTime.Today; } else { }
+            InputDate();
             MenuManager.DrawWindow("calendar_input");
             MenuManager.temporaryInput = "";
             MenuManager.ResetScreen();
@@ -89,6 +88,16 @@ namespace PetByte.CustomCalendars {
             }
             
             return input.ToString();
+        }
+
+        static void InputDate() {
+            string inputDate = ReadRestrictedInput(10, c => char.IsDigit(c) || c == '-');
+            if (!DateTime.TryParse(inputDate, out properInputDate) && inputDate == "") {
+                properInputDate = DateTime.Today;
+            } else if (!DateTime.TryParse(inputDate, out properInputDate) && inputDate != "") {
+                MenuManager.DrawInvalidInput();
+                InputDate();
+            } else { }
         }
     }
 }
