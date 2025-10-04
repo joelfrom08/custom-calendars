@@ -28,10 +28,10 @@ namespace PetByte.CustomCalendars {
                     windowSize: new (21, 7),
                     lines: new() {
                         "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m   YYYY-MM-DD",
-                        "\x1b[48;2;192;192;192m   \x1b[0m          ",
-                        "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
+                        "\x1b[22;48;2;192;192;192m   \x1b[0m          ",
+                        "\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
                         "",
-                        " \x1b[1;38;2;0;192;0;48;2;192;192;192mENTER = CONFIRM\x1b[0m"
+                        " \x1b[23;1;38;2;0;192;0mENTER = CONFIRM\x1b[0m"
                     }
                 )
             },
@@ -44,7 +44,7 @@ namespace PetByte.CustomCalendars {
                     windowSize: new (30, 17),
                     lines: new() {
                         "\x1b[1;3;38;2;160;160;160;48;2;192;192;192mENTER CALENDAR ID: \x1b[0m ",
-                        "\x1b[0m\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = all)",
+                        "\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = all)",
                         "",
                         "\x1b[38;2;0;0;0m1 — Der joel\'sche Kalender",
                         "2 — JoCalendar",
@@ -57,7 +57,7 @@ namespace PetByte.CustomCalendars {
                         "9 — GoodTimes Calendar",
                         "a — (All Calendars)",
                         "",
-                        " \x1b[1;38;2;0;192;0;48;2;192;192;192mENTER = CONFIRM\x1b[0m"
+                        " \x1b[1;38;2;0;192;0mENTER = CONFIRM\x1b[0m"
                     }
                 )
             },
@@ -95,7 +95,7 @@ namespace PetByte.CustomCalendars {
                 int g = (int)(start.g + (end.g - start.g) * gradientPosition);
                 int b = (int)(start.b + (end.b - start.b) * gradientPosition);
 
-                titleToVersionGradient += $"\x1b[38;2;{r};{g};{b};48;2;{r};{g};{b}m█\x1b[0m";
+                titleToVersionGradient += $"\x1b[48;2;{r};{g};{b}m \x1b[0m";
             }
         }
 
@@ -108,12 +108,12 @@ namespace PetByte.CustomCalendars {
             if (!titleStringVisible) { return; }
 
             Console.SetCursorPosition(0, 0);
-            Console.Write($"\x1b[1;3;38;2;0;0;0;48;2;255;111;0m{titleString}");
+            Console.Write($"\x1b[1;3;30;48;2;255;111;0m{titleString}");
             if (versionStringAtTop) {
-                Console.SetCursorPosition(Console.WindowWidth - (devVersion ? hashString.Length : versionString.Length) - titleToVersionGradient.Count(x => x == '█'), 0);
+                Console.SetCursorPosition(Console.WindowWidth - (devVersion ? hashString.Length : versionString.Length) - titleToVersionGradient.Count(x => x == ' '), 0);
                 Console.Write(titleToVersionGradient);
             } else {
-                Console.Write("\x1b[22;3;38;2;255;111;0m" + new string('█', Console.WindowWidth - titleString.Length));
+                Console.Write("\x1b[22;38;2;255;111;0m" + new string('█', Console.WindowWidth - titleString.Length));
             }
 
             Console.ResetColor();
@@ -179,7 +179,7 @@ namespace PetByte.CustomCalendars {
                     Console.Write("╗");
                     Console.Write("\x1b[38;2;0;0;192;48;2;0;0;255m▄▄");
                 } else if (i > 0 && i < windowHeight - 1) {
-                    Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;192;192;192m" + new string('█', windowWidth - 2) + "\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;0;0;192;48;2;0;0;192m██");
+                    Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m║\x1b[38;2;192;192;192m" + new string('█', windowWidth - 2) + "\x1b[38;2;160;160;160m║\x1b[38;2;0;0;192;48;2;0;0;192m██");
                 } else {
                     Console.Write("\x1b[38;2;160;160;160;48;2;192;192;192m╚");
                     Console.Write("" + new string('═', windowWidth - 2));
@@ -227,10 +227,9 @@ namespace PetByte.CustomCalendars {
         
         static void DrawResult() {
             Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 1);
-            Console.Write("\x1b[38;2;0;0;0;48;2;192;192;192m");
-            Console.Write($"The Gregorian date \x1b[1m{MainProgram.properInputDate:yyyy-MM-dd}\x1b[22m converts to…\x1b[0m");
+            Console.Write("\x1b[30;48;2;192;192;192m");
+            Console.Write($"The Gregorian date \x1b[1m{MainProgram.properInputDate:yyyy-MM-dd}\x1b[22m converts to…");
             if (MainProgram.calendarID == 'a') {
-                Console.Write("\x1b[38;2;0;0;0;48;2;192;192;192m");
                 for (int i = 0; i < CalendarConversion.convertToCalendarFunctions.Count; i++) {
                     string calendarName = CalendarConversion.calendars.ElementAt(i).Value.calendarName;
                     Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3 + i);
@@ -239,11 +238,11 @@ namespace PetByte.CustomCalendars {
             } else {
                 Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)currentWindowTL.Y + 3);
                 string calendarName = CalendarConversion.calendars.ElementAt(MainProgram.calendarID - '1').Value.calendarName;
-                Console.Write($"\x1b[38;2;0;0;0;48;2;192;192;192m{calendarName}: " + CalendarConversion.convertToCalendarFunctions[MainProgram.calendarID - '1'] + "\x1b[0m");
+                Console.Write($"{calendarName}: " + CalendarConversion.convertToCalendarFunctions[MainProgram.calendarID - '1'] + "\x1b[0m");
             }
 
             Console.SetCursorPosition((int)currentWindowTL.X + 2, (int)(currentWindowTL.Y + windows[currentWindow].windowSize.Y - 2));
-            Console.Write("\x1b[1;3;32mPress any key to exit.");
+            Console.Write("\x1b[1;3;32;48;2;192;192;192mPress any key to exit.");
             Console.Write("\x1b[0m");
         }
 

@@ -58,7 +58,7 @@ namespace PetByte.CustomCalendars {
                     consoleWidth = Console.WindowWidth;
                     consoleHeight = Console.WindowHeight;
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(25);
             }
         }
         
