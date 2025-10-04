@@ -28,7 +28,8 @@ Download the executable for your operating system from the [releases page](https
 > Starting with v1.0.2, Windows builds require [Modern Terminal](https://aka.ms/terminal) or an equivalently new terminal, such as Git Bash.
 
 **How to launch:**
-- `osx-arm64`, `osx-x64`, `linux-x64`: Using your terminal of choice, navigate to the directory to which you downloaded the executable, and run `./CustomCalendars-[OS]`. Replace `[OS]` with `macos-arm`, `macos-x64`, or `linux` respectively.
+- `osx-arm64`, `osx-x64`, `linux-x64`: Using your terminal of choice, navigate to the directory to which you downloaded the executable, and run `chmod +x ./CustomCalendars-[OS] && ./CustomCalendars-[OS]`. Replace `[OS]` with `macos-arm`, `macos-x64`, or `linux` respectively. You may have to run as `sudo`.
+    - macOS will likely ask you if you are sure you want to open this file. Confirm in your Privacy & Security settings.
 - `win-x64`: Simply double-click the `.exe` file.
 
 To quit, either cancel the execution using `⌃C`, or press enter after viewing the final result.
