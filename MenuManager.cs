@@ -3,9 +3,9 @@ using System.Numerics;
 namespace PetByte.CustomCalendars {
     static class MenuManager {
         public static string titleString = "Custom Calendar Converter";
-        public static string versionString = "v1.0.0";
+        public static string versionString = "v1.0.1";
         public static string hashString = ThisAssembly.GitCommitId.Substring(0, 10);
-        static bool devVersion = true;
+        static bool devVersion = false;
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
 
