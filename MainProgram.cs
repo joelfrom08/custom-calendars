@@ -35,7 +35,8 @@ namespace PetByte.CustomCalendars {
         }
         
         static void CheckIfModernTerminal() {
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) && string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TERM"))) {
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) &&
+            string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TERM")) && string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WT_SESSION"))) {
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.White;
