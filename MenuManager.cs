@@ -1,10 +1,9 @@
-using System.Drawing;
 using System.Numerics;
 
 namespace PetByte.CustomCalendars {
     static class MenuManager {
         public static string titleString = "Custom Calendar Converter";
-        public static string versionString = ThisAssembly.AssemblyInformationalVersion.Replace(".0+", "+");
+        public static string versionString = ThisAssembly.AssemblyInformationalVersion;
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
 
