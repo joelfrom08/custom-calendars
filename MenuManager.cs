@@ -13,21 +13,21 @@ namespace PetByte.CustomCalendars {
         public static bool copyrightStringVisible = true;
 
         static Vector2 currentWindowTL = Vector2.Zero;
-        public static string currentWindow = "date_input";
+        public static string currentWindow = "date_input_greg";
         public static string temporaryInput = "";
 
         public static Dictionary<string, WindowInfo> windows = new() {
             {
-                "date_input",
+                "date_input_greg",
                 new WindowInfo(
-                    windowName: "Input date…",
+                    windowName: "Input Gregorian date…",
                     topLeftOffset: new (2, 1),
                     finalPosition: new (5, 2),
-                    windowSize: new (21, 7),
+                    windowSize: new (31, 7),
                     lines: new() {
-                        "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m   YYYY-MM-DD",
-                        "\x1b[22;48;2;192;192;192m   \x1b[0m          ",
-                        "\x1b[3;38;2;160;160;160;48;2;192;192;192m (empty = today)",
+                        "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m        YYYY-MM-DD",
+                        "\x1b[22;48;2;192;192;192m        \x1b[0m          ",
+                        "\x1b[3;38;2;160;160;160;48;2;192;192;192m      (empty = today)",
                         "",
                         " \x1b[23;1;38;2;0;192;0mENTER = CONFIRM\x1b[0m"
                     }
