@@ -18,6 +18,12 @@ namespace PetByte.CustomCalendars {
             Console.CursorVisible = false;
             Task.Run(() => CheckForResize());
 
+            string conversionDirection = ReadRestrictedInput(1, c => char.IsDigit(c) && c == '1' || c == '2');
+            if (string.IsNullOrEmpty(conversionDirection)) { conversionDirection = "1"; }
+            MenuManager.DrawWindow("date_input_greg");
+            MenuManager.temporaryInput = "";
+            MenuManager.ResetScreen();
+
             InputDate();
             MenuManager.DrawWindow("calendar_input");
             MenuManager.temporaryInput = "";

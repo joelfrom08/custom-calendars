@@ -13,10 +13,26 @@ namespace PetByte.CustomCalendars {
         public static bool copyrightStringVisible = true;
 
         static Vector2 currentWindowTL = Vector2.Zero;
-        public static string currentWindow = "date_input_greg";
+        public static string currentWindow = "choose_direction";
         public static string temporaryInput = "";
 
         public static Dictionary<string, WindowInfo> windows = new() {
+            {
+                "choose_direction",
+                new WindowInfo(
+                    windowName: "Select conversion direction…",
+                    topLeftOffset: new (2, 1),
+                    finalPosition: new (2, 5),
+                    windowSize: new (47, 7),
+                    lines: new() {
+                        "\x1b[38;2;0;0;0;48;2;192;192;192mDo you want to (1) convert a Gregorian date",
+                        "into a custom calendar, or (2) convert a",
+                        "custom calendar date into a Gregorian one?",
+                        "",
+                        "\x1b[0m \x1b[23;1;38;2;0;192;0;48;2;192;192;192m ENTER = CONFIRM\x1b[0m"
+                    }
+                )
+            },
             {
                 "date_input_greg",
                 new WindowInfo(
