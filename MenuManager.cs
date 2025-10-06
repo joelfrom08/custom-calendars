@@ -38,7 +38,7 @@ namespace PetByte.CustomCalendars {
                 new WindowInfo(
                     windowName: "Input Gregorian date…",
                     topLeftOffset: new (2, 1),
-                    finalPosition: new (5, 2),
+                    finalPosition: new (10, 2),
                     windowSize: new (31, 7),
                     lines: new() {
                         "\x1b[1;3;38;2;160;160;160;48;2;192;192;192m        YYYY-MM-DD",
