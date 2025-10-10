@@ -98,15 +98,15 @@ namespace PetByte.CustomCalendars {
         }
 
         public static void DrawMenuBackground() {
-            Console.BackgroundColor = ConsoleColor.Blue;
-            Console.Clear();
+            Console.Write("\x1b[48;2;0;0;255m\x1b[2J;2m");
         }
+        
 
         public static void DrawTitle() {
             if (!titleStringVisible) { return; }
 
             Console.SetCursorPosition(0, 0);
-            Console.Write($"\x1b[1;3;30;48;2;255;111;0m{titleString}");
+            Console.Write($"\x1b[1;3;37;48;2;255;111;0m{titleString}");
             if (versionStringAtTop) {
                 Console.SetCursorPosition(Console.BufferWidth - versionString.Length - titleToVersionGradient.Count(x => x == ' '), 0);
                 Console.Write(titleToVersionGradient);
@@ -120,14 +120,10 @@ namespace PetByte.CustomCalendars {
 
         public static void DrawVersion() {
             if (!versionStringVisible) { return; }
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-
             int x = Console.BufferWidth - versionString.Length;
             int y = versionStringAtTop ? 0 : Console.BufferHeight;
             Console.SetCursorPosition(x, y);
-            Console.Write($"\x1b[1m{versionString}\x1b[22m");
+            Console.Write($"\x1b[1;48;2;102;102;102m{versionString}\x1b[22m");
 
             Console.ResetColor();
         }
@@ -135,13 +131,9 @@ namespace PetByte.CustomCalendars {
         public static void DrawCopyright() {
             if (!copyrightStringVisible) { return; }
 
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.BackgroundColor = ConsoleColor.DarkGray;
-
             Console.SetCursorPosition(0, Console.BufferHeight - 1);
-            Console.Write($"\x1b[1m{copyrightString}\x1b[22m");
+            Console.Write($"\x1b[1;48;2;102;102;102m{copyrightString}\x1b[22;38;2;102;102;102m");
             if (!versionStringAtTop || !versionStringVisible) {
-                Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.Write(new string('█', Console.BufferWidth - copyrightString.Length - (versionStringVisible ? versionString.Length : 0)));
             }
 
@@ -190,8 +182,7 @@ namespace PetByte.CustomCalendars {
         }
         
         public static void DrawWindowTooSmall() {
-            Console.BackgroundColor = ConsoleColor.DarkMagenta;
-            Console.Clear();
+            Console.Write("\x1b[48;2;192;0;192m\x1b[2J\x1b[0m");
             Console.SetCursorPosition(0, 0);
             Console.Write("╔" + new string('═', Console.BufferWidth - 2) + "╗");
             for (int i = 1; i < Console.BufferHeight - 1; i++) {
@@ -234,11 +225,9 @@ namespace PetByte.CustomCalendars {
 
         public static void DrawInvalidInput() {
             Console.SetCursorPosition((Console.BufferWidth - 29) / 2, 1);
-            Console.BackgroundColor = ConsoleColor.Magenta;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.Write("Invalid Input. Leave empty or");
+            Console.Write("\x1b[48;2;192;0;192;38;2;192;0;0mInvalid Input. Leave empty or");
             Console.SetCursorPosition((Console.BufferWidth - 32) / 2, 2);
-            Console.Write("write in full YYYY-MM-DD format.");
+            Console.Write("write in full YYYY-MM-DD format.\x1b[0m");
             Thread.Sleep(1500);
             temporaryInput = "";
             ResetScreen();
