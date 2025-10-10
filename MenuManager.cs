@@ -3,7 +3,7 @@ using System.Numerics;
 namespace PetByte.CustomCalendars {
     static class MenuManager {
         public static string titleString = "Custom Calendar Converter";
-        public static string versionString = ThisAssembly.AssemblyInformationalVersion;
+        public static string versionString = $"v{(ThisAssembly.IsPublicRelease ? ThisAssembly.AssemblyFileVersion.Remove(5, 2) : ThisAssembly.AssemblyInformationalVersion)}";
         public static string copyrightString = "(c) 2025 PetByte";
         public static string titleToVersionGradient = "";
 
