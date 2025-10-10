@@ -54,9 +54,11 @@ I have a few ideas I want to still implement, read below...
 ### v1.1.*x*
 - Convert *from* a custom calendar system back the Gregorian one
 - Tweak date input
-### v1.2.*x*
+### v2.0.*x*
+- Move to either [spectre.console](https://github.com/spectreconsole/spectre.console) or [Terminal.Gui](https://github.com/gui-cs/Terminal.Gui).
+### v2.1.*x*
 - Convert an entire year
 - Tweak final result window & allow for easy quitting or new conversions without restarting the application
-### v1.3.*x*
+### v2.2.*x*
 - Potentially add support for other platforms
 - Information window(s)
